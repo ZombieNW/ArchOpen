@@ -1,0 +1,7 @@
+{
+    "version": "1.0.0",
+    "retroarch_install_path": "C:\\RetroArch-Win64",
+    "cores":[
+        {"extension": "nes", "core": "nestopia_libretro.dll"}
+    ]
+}

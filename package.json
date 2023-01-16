@@ -1,0 +1,24 @@
+{
+  "name": "archopen",
+  "version": "0.1.0",
+  "description": "Open your roms in retroarch via the windows explorer easier.",
+  "main": "index.js",
+  "bin": "index.js",
+  "scripts": {
+    "build": "pkg .",
+    "setup": "npm i && pkg index.js --output ArchOpen.exe --target node16-win-x64",
+    "test": "npm run build && ArchOpen.exe \"C:\\Users\\Zombi\\OneDrive\\Desktop\\Dev\\ArchOpen\\examples\\2048.nes\""
+  },
+  "pkg": {
+    "scripts": "index.js",
+    "targets": [ "node16-win-x64" ],
+    "outputPath": "dist"
+  },
+  "keywords": [
+    "roms",
+    "retroarch",
+    "gaming"
+  ],
+  "author": "ZombieNW",
+  "license": "MIT"
+}
