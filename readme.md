@@ -14,12 +14,19 @@ npm run test
 ```
 
 ## Usage
-Just go over to the releases tab and grab the latest build.
-Extract it and then customize your config.json, an example one should be included with release 1.0.0
+Grab the [latest release](https://github.com/ZombieNW/ArchOpen/releases)
+You can generate an example config.json by running
+```sh
+archopen.exe --generate-config
+```
+or copying the [example config](https://github.com/ZombieNW/ArchOpen/blob/main/example_config.json) into config.json in the same directory as the executable.
+Customize your config so each extension corresponds with the name of the core dll in the cores directory of your RetroArch install.
+Once your config is set up just set the executable to always open a file type in Windows Explorer.
+(And I mean make sure you have RetroArch and the respective cores specified in the config installed)
 
 ## Checklist
 
-- [ ] Prototype CLI
+- [x] Prototype CLI
 - [ ] Configuration Tool
 - [ ] UI?
 

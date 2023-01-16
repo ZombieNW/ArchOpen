@@ -1,7 +1,12 @@
 {
-    "version": "1.0.0",
+    "version": "0.2.0",
     "retroarch_install_path": "C:\\RetroArch-Win64",
     "cores":[
-        {"extension": "nes", "core": "nestopia_libretro.dll"}
+        {"extension": "nes", "core": "nestopia_libretro.dll"},
+        {"extension": "sfc", "core": "snes9x_libretro.dll"},
+        {"extension": "smd", "core": "genesis_plus_gx_libretro.dll"},
+        {"extension": "z64", "core": "mupen64plus_next_libretro.dll"},
+        {"extension": "chd", "core": "swanstation_libretro.dll"},
+        {"extension": "gcm", "core": "dolphin_libretro.dll"}
     ]
 }
