@@ -5,14 +5,9 @@
   "main": "index.js",
   "bin": "index.js",
   "scripts": {
-    "build": "pkg .",
-    "setup": "npm i && pkg index.js --output ArchOpen.exe --target node16-win-x64",
-    "test": "npm run build && ArchOpen.exe \"C:\\Users\\Zombi\\OneDrive\\Desktop\\Dev\\ArchOpen\\examples\\2048.nes\""
-  },
-  "pkg": {
-    "scripts": "index.js",
-    "targets": [ "node16-win-x64" ],
-    "outputPath": "dist"
+    "build": "node build.js",
+    "setup": "npm i && npm i pkg -g",
+    "test": "npm run build && dist/ArchOpen.exe \"C:\\Users\\Zombi\\OneDrive\\Desktop\\Dev\\ArchOpen\\examples\\2048.nes\""
   },
   "keywords": [
     "roms",
@@ -20,5 +15,8 @@
     "gaming"
   ],
   "author": "ZombieNW",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@angablue/exe": "^1.2.0"
+  }
 }

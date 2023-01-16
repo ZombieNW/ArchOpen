@@ -6,7 +6,7 @@
 I have a nice rom folder, and sometimes I just wanna be able to double click a file and it opens, but Retroarch doesn't natively support that. So I want to make a user friendly way to be able to open games. For right now the goal is just file extension association, but maybe down the line I'll add a UI similar to OpenEmu, as personally, I think many of the emulator frontends of today are too complicated.
 
 ## Building
-Install [NASM](https://www.nasm.us) and [Node.JS](https://nodejs.org/en/) and then run the following commands.
+Install [Node.JS](https://nodejs.org/en/) and then run the following commands.
 ```sh
 npm run setup
 npm run build
