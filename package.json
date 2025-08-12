@@ -19,7 +19,9 @@
   "author": "ZombieNW",
   "license": "MIT",
   "dependencies": {
-    "@angablue/exe": "^1.2.0",
     "cli-color": "^2.0.3"
+  },
+  "devDependencies": {
+    "@angablue/exe": "^2.1.3"
   }
 }
