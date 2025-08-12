@@ -7,7 +7,7 @@
   "scripts": {
     "build": "node build.js",
     "setup": "npm i && npm i pkg -g",
-    "test": "npm run build && cd dist && ArchOpen.exe \"C:\\Users\\Zombi\\OneDrive\\Desktop\\Dev\\ArchOpen\\examples\\2048.nes\"",
+    "test": "npm run build && cd dist && ArchOpen.exe \"..\\examples\\2048.nes\"",
     "generate-config": "cd dist && ArchOpen.exe --generate-config",
     "help": "cd dist && ArchOpen.exe -h"
   },
