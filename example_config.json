@@ -1,12 +1,26 @@
 {
-    "version": "0.2.0",
+    "version": "0.6.0",
     "retroarch_install_path": "C:\\RetroArch-Win64",
-    "cores":[
-        {"extension": "nes", "core": "nestopia_libretro.dll"},
-        {"extension": "sfc", "core": "snes9x_libretro.dll"},
-        {"extension": "smd", "core": "genesis_plus_gx_libretro.dll"},
-        {"extension": "z64", "core": "mupen64plus_next_libretro.dll"},
-        {"extension": "chd", "core": "swanstation_libretro.dll"},
-        {"extension": "gcm", "core": "dolphin_libretro.dll"}
+    "auto_detect_retroarch": true,
+    "launch_fullscreen": false,
+    "backup_configs": true,
+    "cores": [
+        { "extension": "nes", "core": "nestopia_libretro.dll", "description": "Nintendo Entertainment System" },
+        { "extension": "sfc", "core": "snes9x_libretro.dll", "description": "Super Nintendo" },
+        { "extension": "snes", "core": "snes9x_libretro.dll", "description": "Super Nintendo" },
+        { "extension": "smd", "core": "genesis_plus_gx_libretro.dll", "description": "Sega Genesis/Mega Drive" },
+        { "extension": "gen", "core": "genesis_plus_gx_libretro.dll", "description": "Sega Genesis" },
+        { "extension": "z64", "core": "mupen64plus_next_libretro.dll", "description": "Nintendo 64 (big endian)" },
+        { "extension": "n64", "core": "mupen64plus_next_libretro.dll", "description": "Nintendo 64" },
+        { "extension": "v64", "core": "mupen64plus_next_libretro.dll", "description": "Nintendo 64 (byte-swapped)" },
+        { "extension": "chd", "core": "swanstation_libretro.dll", "description": "PlayStation (CHD)" },
+        { "extension": "cue", "core": "swanstation_libretro.dll", "description": "PlayStation (CUE/BIN)" },
+        { "extension": "iso", "core": "swanstation_libretro.dll", "description": "PlayStation (ISO)" },
+        { "extension": "gcm", "core": "dolphin_libretro.dll", "description": "GameCube" },
+        { "extension": "iso", "core": "dolphin_libretro.dll", "description": "GameCube/Wii (ISO)", "priority": 2 },
+        { "extension": "wbfs", "core": "dolphin_libretro.dll", "description": "Wii (WBFS)" },
+        { "extension": "gba", "core": "mgba_libretro.dll", "description": "Game Boy Advance" },
+        { "extension": "gb", "core": "gambatte_libretro.dll", "description": "Game Boy" },
+        { "extension": "gbc", "core": "gambatte_libretro.dll", "description": "Game Boy Color" }
     ]
 }

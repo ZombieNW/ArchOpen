@@ -1,9 +1,9 @@
 {
   "name": "archopen",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "description": "Open your roms in retroarch via the windows explorer easier.",
-  "main": "index.js",
-  "bin": "index.js",
+  "main": "src/ArchOpen.js",
+  "bin": "src/ArchOpen.js",
   "scripts": {
     "build": "node build.js",
     "setup": "npm i && npm i pkg -g",
