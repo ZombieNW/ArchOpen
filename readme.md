@@ -2,6 +2,8 @@
 ### _An easy way to open games with RetroArch_
 ![Languages](https://badgen.net/badge/language/Node.JS/green) ![Platform](https://badgen.net/badge/platform/Windows/blue) ![License](https://badgen.net/badge/license/MIT/red)
 
+![Usage Gif](https://zombienw.com/assets/archopen/gif.gif)
+
 ## What?
 Sometimes I just want to double click a rom file and it just opens with the proper core in Retroarch.
 If you share this desire, welcome!
