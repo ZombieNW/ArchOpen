@@ -1,28 +1,32 @@
 # ArchOpen
 ### _An easy way to open games with RetroArch_
-![Languages](https://badgen.net/badge/language/Node.JS/green) ![Platform](https://badgen.net/badge/language/Windows/blue) ![License](https://badgen.net/badge/language/MIT/red)
+![Languages](https://badgen.net/badge/language/Node.JS/green) ![Platform](https://badgen.net/badge/platform/Windows/blue) ![License](https://badgen.net/badge/license/MIT/red)
 
 ## What?
-I have a nice rom folder, and sometimes I just wanna be able to double click a file and it opens, but Retroarch doesn't natively support that. So I want to make a user friendly way to be able to open games. For right now the goal is just file extension association, but maybe down the line I'll add a UI similar to OpenEmu, as personally, I think many of the emulator frontends of today are too complicated.
+Sometimes I just want to double click a rom file and it just opens with the proper core in Retroarch.
+If you share this desire, welcome!
 
 ## Building
 Install [Node.JS](https://nodejs.org/en/) and then run the following commands.
 ```sh
 npm run setup
 npm run build
-npm run test
 ```
 
 ## Usage
 Grab the [latest release](https://github.com/ZombieNW/ArchOpen/releases)
-You can generate an example config.json by running
+
+Generate an example config.json
 ```sh
 archopen.exe --generate-config
 ```
-or copying the [example config](https://github.com/ZombieNW/ArchOpen/blob/main/example_config.json) into config.json in the same directory as the executable.
-Customize your config so each extension corresponds with the name of the core dll in the cores directory of your RetroArch install.
-Once your config is set up just set the executable to always open a file type in Windows Explorer.
-(And I mean make sure you have RetroArch and the respective cores specified in the config installed)
+(or copy the [example config](https://github.com/ZombieNW/ArchOpen/blob/main/example_config.json) as config.json in the executable directory)
+
+Customize config.json so each extension has a core_name.dll matching a core in the cores directory of your RetroArch install.
+
+Right click rom file, "Open With", "Choose an App on your PC", and select ArchOpen.exe
+
+Enjoy !
 
 ## Checklist
 
