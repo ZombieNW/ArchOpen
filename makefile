@@ -7,7 +7,7 @@ TARGET = ArchOpen
 TARGET_DIR = dist
 TARGET_NAME = $(TARGET).exe
 
-SRCS = src/main.cpp src/commands.cpp src/configmanager.cpp src/configmigrator.cpp
+SRCS = src/main.cpp src/commands.cpp src/configmanager.cpp src/configmigrator.cpp src/romlauncher.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 
@@ -23,5 +23,5 @@ clean:
 	del /s /q *.o *.exe
 
 test:
-	./$(TARGET_DIR)/$(TARGET_NAME).exe ./$(TARGET_DIR)/testfile.nes
+	./$(TARGET_DIR)/$(TARGET_NAME) testfile.nes
 

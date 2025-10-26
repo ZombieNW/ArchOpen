@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
         }
 
         else if (isFilePath(command)) {
-            //launchROM(command);
+            launchRom(command);
         }
         
         else {

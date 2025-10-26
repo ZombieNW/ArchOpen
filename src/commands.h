@@ -6,5 +6,6 @@
     int showVersion();
     int migrateConfig();
     int listCores();
+    int launchRom(const std::string& romPath);
 #endif
 

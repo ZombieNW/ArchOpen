@@ -3,6 +3,7 @@
 #include <unordered_set>
 
 #include "configmanager.h"
+#include "romlauncher.h"
 #include "commands.h"
 #include "main.h"
 
@@ -81,4 +82,10 @@ int migrateConfig() {
         std::cerr << e.what() << '\n';
         return 1;
     }
+}
+
+int launchRom(const std::string& romPath) {
+    ConfigManager configManager;
+    RomLauncher romLauncher(&configManager);
+    return romLauncher.launch(romPath);
 }
