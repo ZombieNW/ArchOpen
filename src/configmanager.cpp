@@ -12,7 +12,7 @@
 ConfigManager::ConfigManager() {
     this->configPath = this->getConfigPath();
     this->defaultConfig = {
-        {"version", version},
+        {"version", version}, // Round to 1 decimal to avoid floating point errors
         {"retroarch_install_path", "C:\\RetroArch-Win64"},
         {"auto_detect_retroarch", true},
         {"launch_fullscreen", false},
@@ -162,7 +162,7 @@ void ConfigManager::generate(bool force = false) {
 
 // Backup existing config to file
 std::string ConfigManager::createBackup(nlohmann::json& config) {
-    std::string backupPath = this->configPath + this->getTimestamp() + ".bak";
+    std::string backupPath = this->configPath + "." + this->getTimestamp() + ".bak";
     try {
         std::ofstream backupFile(backupPath);
         backupFile << config.dump(4);
@@ -216,12 +216,12 @@ float ConfigManager::getVersion() {
             return existingConfig["version"].get<float>();
         }
         else {
-            return 0.5f;
+            return 0.5;
         }
     }
     catch (const std::exception& e) {
         std::cerr << "Uh Oh, Couldn't Get Version: " << e.what() << "\n";
-        return 0.5f;
+        return 0.5;
     }
 }
 

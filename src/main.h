@@ -1,1 +1,3 @@
-extern float version;
+#pragma once
+
+extern double version;

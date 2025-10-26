@@ -3,12 +3,13 @@
 #include <sys/stat.h>
 #include <set>
 #include <limits>
+#include <cmath>
 
 #include "commands.h"
 #include "main.h"
 
 
-float version = 0.7f;
+double version = 0.7;
 
 int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
