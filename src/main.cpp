@@ -33,6 +33,7 @@ int main(int argc, char* argv[]) {
         const std::set<std::string> genConfigCommands = {"--generate-config", "-gc"};
         const std::set<std::string> listCommands = {"--list-cores", "-lc", "-l"};
         const std::set<std::string> verifyCommands = {"--verify", "-v"};
+        const std::set<std::string> migrateCommands = {"--migrate", "-m"};
 
         if (helpCommands.count(command)) {
             showHelp();
@@ -52,6 +53,10 @@ int main(int argc, char* argv[]) {
 
         else if (verifyCommands.count(command)) {
             std::cout << "ArchOpen Verify:\n";
+        }
+
+        else if (migrateCommands.count(command)) {
+            migrateConfig();
         }
         
         else { //TODO make this a check if the command is a file path

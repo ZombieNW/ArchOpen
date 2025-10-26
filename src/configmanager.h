@@ -15,7 +15,7 @@
             void generate(bool force = false);
             void save(nlohmann::json& config);
             std::string getVersion();
-            nlohmann::json load();
+            nlohmann::json load(bool backup = false);
             std::string autoDetectRetroArch();
             std::string createBackup(nlohmann::json& config);
             std::string getConfigPath();

@@ -7,7 +7,7 @@ TARGET = ArchOpen
 TARGET_DIR = dist
 TARGET_NAME = $(TARGET).exe
 
-SRCS = src/main.cpp src/commands.cpp src/configmanager.cpp
+SRCS = src/main.cpp src/commands.cpp src/configmanager.cpp src/configmigrator.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 

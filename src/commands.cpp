@@ -38,3 +38,16 @@ int generateConfig(bool force = false) {
         return 1;
     }
 }
+
+int migrateConfig() {
+    std::cout << "Migrating config.json...\n";
+    ConfigManager configManager;
+    try {
+        configManager.load(true);
+        return 0;
+    }
+    catch(const std::exception& e) {
+        std::cerr << e.what() << '\n';
+        return 1;
+    }
+}

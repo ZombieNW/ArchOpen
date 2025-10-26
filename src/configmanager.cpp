@@ -7,6 +7,7 @@
 #include <windows.h>
 
 #include "configmanager.h"
+#include "configmigrator.h"
 #include "main.h"
 
 ConfigManager::ConfigManager() {
@@ -124,7 +125,7 @@ bool ConfigManager::exists() {
     return std::filesystem::exists(this->configPath);
 }
 
-nlohmann::json ConfigManager::load() {
+nlohmann::json ConfigManager::load(bool backup) {
     // Error checking
     if(!this->exists()) {
         throw std::runtime_error("config.json doesn't exist");
@@ -143,6 +144,25 @@ nlohmann::json ConfigManager::load() {
         throw std::runtime_error(std::string("JSON parse error: ") + e.what());
     }
 
+    ConfigMigrator migrator;
+    std::string currentVersion = version;
+
+    if (migrator.needsMigration(config, currentVersion)) {
+        std::cout << "Config version is outdated, migrating...\n";
+
+        // Backup config
+        if (backup) {
+            std::string backupPath = this->createBackup(config);
+            if (!backupPath.empty()) {
+                std::cout << "Backup created at: " << backupPath << "\n";
+            }
+        }
+        
+        // Migrate
+        config = migrator.migrate(config, currentVersion);
+        this->save(config);
+    }
+
     return config;
 }
 
@@ -159,7 +179,7 @@ void ConfigManager::generate(bool force) {
 
         try {
             // Load existing config and backup
-            nlohmann::json existingConfig = this->load();
+            nlohmann::json existingConfig = this->load(false);
             std::string backupPath = this->createBackup(existingConfig);
 
             if (!backupPath.empty()) {
@@ -168,7 +188,6 @@ void ConfigManager::generate(bool force) {
         }
         catch (const std::exception& e) {
             std::cerr << "Uh Oh, Couldn't Backup: " << e.what() << "\n";
-            return;
         }
     }
 

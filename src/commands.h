@@ -4,5 +4,6 @@
     int showHelp();
     int generateConfig(bool force);
     int showVersion();
+    int migrateConfig();
 #endif
 
