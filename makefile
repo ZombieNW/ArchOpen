@@ -1,9 +1,26 @@
-TARGET_DIR = dist
-TARGET_NAME = ArchOpen
+CXX = g++
+CXXFLAGS = -Wall -g -std=c++17
 
-main: src/main.cpp
-	@if not exist "$(TARGET_DIR)" mkdir "$(TARGET_DIR)"
-	g++ -o "$(TARGET_DIR)/$(TARGET_NAME)" src/main.cpp src/commands.cpp
+CPPFLAGS = -I./include
+
+TARGET = ArchOpen
+TARGET_DIR = dist
+TARGET_NAME = $(TARGET).exe
+
+SRCS = src/main.cpp src/commands.cpp src/configmanager.cpp
+OBJS = $(SRCS:.cpp=.o)
+
+
+all: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET_DIR)/$(TARGET_NAME)
+
+%.o: %.cpp
+	$(CXX) $(CXXFLAGS) $(CPPFLAGS) -c $< -o $@
+
+clean:
+	del /s /q *.o *.exe
 
 test:
 	./$(TARGET_DIR)/$(TARGET_NAME).exe ./$(TARGET_DIR)/testfile.nes
