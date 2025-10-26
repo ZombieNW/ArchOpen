@@ -12,7 +12,7 @@
 ConfigManager::ConfigManager() {
     this->configPath = this->getConfigPath();
     this->defaultConfig = {
-        {"version", version}, // Round to 1 decimal to avoid floating point errors
+        {"version", version},
         {"retroarch_install_path", "C:\\RetroArch-Win64"},
         {"auto_detect_retroarch", true},
         {"launch_fullscreen", false},
@@ -111,10 +111,13 @@ ConfigManager::ConfigManager() {
 // I Hate windows path handling in C++
 std::string ConfigManager::getConfigPath() {
     wchar_t buffer[MAX_PATH]; // Character buffer, MAX_PATH is 260
-    GetModuleFileNameW(nullptr, buffer, MAX_PATH); // Use windows api to get the current executable path and store it in buffer
+    DWORD length = GetModuleFileNameW(nullptr, buffer, MAX_PATH); // Use windows api to get the current executable path and store it in buffer
+    if (length == 0 || length == MAX_PATH) {
+        throw std::runtime_error("Failed to get executable path");
+    }
+
     std::filesystem::path exePath(buffer); // Convert wchar_t buffer to filesystem path
-    auto configPath = exePath.parent_path() / "config.json";
-    return configPath.string();
+    return (exePath.parent_path() / "config.json").string();
 }
 
 bool ConfigManager::exists() {
@@ -122,15 +125,29 @@ bool ConfigManager::exists() {
 }
 
 nlohmann::json ConfigManager::load() {
-    std::ifstream existingConfigFile(this->configPath);
-    nlohmann::json existingConfig;
-    existingConfigFile >> existingConfig;
-    existingConfigFile.close();
-    return existingConfig;
+    // Error checking
+    if(!this->exists()) {
+        throw std::runtime_error("config.json doesn't exist");
+    }
+
+    std::ifstream file(this->configPath); // Load file
+    if (!file.is_open()) {
+        throw std::runtime_error("Couldn't open config file: " + this->configPath);
+    }
+    
+    // Parse JSON
+    nlohmann::json config;
+    try {
+        file >> config;
+    } catch (const nlohmann::json::parse_error& e) {
+        throw std::runtime_error(std::string("JSON parse error: ") + e.what());
+    }
+
+    return config;
 }
 
 // Save default config to file
-void ConfigManager::generate(bool force = false) {
+void ConfigManager::generate(bool force) {
     if (this->exists() && !force) {
         std::cerr << "config.json already exists ! (You can use --force to overwrite it.)\n";
         return;
@@ -141,11 +158,10 @@ void ConfigManager::generate(bool force = false) {
         std::cout << "Overwriting existing config.json...\n";
 
         try {
-            // Load existing config
+            // Load existing config and backup
             nlohmann::json existingConfig = this->load();
-
-            // Create backup
             std::string backupPath = this->createBackup(existingConfig);
+
             if (!backupPath.empty()) {
                 std::cout << "Backup created at: " << backupPath << "\n";
             }
@@ -163,10 +179,15 @@ void ConfigManager::generate(bool force = false) {
 // Backup existing config to file
 std::string ConfigManager::createBackup(nlohmann::json& config) {
     std::string backupPath = this->configPath + "." + this->getTimestamp() + ".bak";
+    
     try {
-        std::ofstream backupFile(backupPath);
-        backupFile << config.dump(4);
-        backupFile.close();
+        std::ofstream backup(backupPath);
+        if (!backup.is_open()) {
+            throw std::runtime_error("Couldn't open backup file for writing");
+        }
+
+        backup << config.dump(4);
+        backup.close();
         return backupPath;
     }
     catch (const std::exception& e) {
@@ -178,13 +199,19 @@ std::string ConfigManager::createBackup(nlohmann::json& config) {
 // Save config to file
 void ConfigManager::save(nlohmann::json& config) {
     try {
-        std::ofstream configFile(this->configPath);
-        configFile << config.dump(4);
-        configFile.close();
+        // Open file
+        std::ofstream file(this->configPath);
+        if (!file.is_open()) {
+            throw std::runtime_error("Couldn't open file for writing: " + this->configPath);
+        }
+
+        // Write config
+        file << config.dump(4);
+        file.close();
         std::cout << "Yipee! config.json has been generated at: " << this->configPath << "\n";
     }
     catch (const std::exception& e) {
-        std::cerr << "Uh Oh, Couldn't Save Config: " << e.what() << "\n";
+        std::cerr << "Uh Oh, couldn't save config: " << e.what() << "\n";
     }
 }
 
@@ -211,24 +238,23 @@ std::string ConfigManager::autoDetectRetroArch() {
 
 float ConfigManager::getVersion() {
     try {
-        nlohmann::json existingConfig = this->load();
-        if (existingConfig.contains("version")) {
-            return existingConfig["version"].get<float>();
-        }
-        else {
-            return 0.5;
+        nlohmann::json config = this->load();
+        if (config.contains("version")) {
+            return config["version"].get<double>();
         }
     }
     catch (const std::exception& e) {
         std::cerr << "Uh Oh, Couldn't Get Version: " << e.what() << "\n";
-        return 0.5;
     }
+    return 0.5;
 }
 
 std::string ConfigManager::getTimestamp() {
     std::time_t now = std::time(nullptr);
-    std::tm* local_time = std::localtime(&now);
+    std::tm local_time{};
+    localtime_s(&local_time, &now);
+
     std::stringstream ss;
-    ss << std::put_time(local_time, "%Y-%m-%d_%H-%M-%S");
+    ss << std::put_time(&local_time, "%Y-%m-%d-%H-%M-%S");
     return ss.str();
 }

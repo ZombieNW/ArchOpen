@@ -12,7 +12,7 @@
             std::string configPath;
 
             bool exists();
-            void generate(bool force);
+            void generate(bool force = false);
             void save(nlohmann::json& config);
             float getVersion();
             nlohmann::json load();
