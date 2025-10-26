@@ -1,6 +1,7 @@
 #include "commands.h"
 #include "main.h"
 #include <iostream>
+#include "configmanager.h"
 
 int showHelp() {
     std::cout << "ArchOpen v" << version << " - By ZombieNW\n";
@@ -17,4 +18,17 @@ int showHelp() {
 	std::cout << "  archopen.exe --generate-config\n";
     std::cout << "\n";
     return 0;
+}
+
+int generateConfig(bool force = false) {
+    std::cout << "Generating config.json...\n";
+    ConfigManager configManager;
+    try {
+        configManager.generate(force);
+        return 0;
+    }
+    catch(const std::exception& e) {
+        std::cerr << e.what() << '\n';
+        return 1;
+    }
 }

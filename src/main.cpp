@@ -17,8 +17,8 @@ int pauseAndExit(int exitCode) {
 int main(int argc, char* argv[]) {
     try {
         if (argc < 2) {
-            std::cerr << "No arguments provided.\n";
-            pauseAndExit(1);
+            showHelp();
+            pauseAndExit(0);
         }
 
         // Get user command
@@ -32,8 +32,8 @@ int main(int argc, char* argv[]) {
         const std::set<std::string> verifyCommands = {"--verify", "-v"};
 
         if (helpCommands.count(command)) {
-            showHelp();
-            pauseAndExit(0);
+            int result = showHelp();
+            pauseAndExit(result);
         }
 
         else if (versionCommands.count(command)) {
@@ -41,7 +41,8 @@ int main(int argc, char* argv[]) {
         }
 
         else if (genConfigCommands.count(command)) {
-            std::cout << "ArchOpen Gen Config:\n";
+            int result = generateConfig(true);
+            pauseAndExit(result);
         }
 
         else if (listCommands.count(command)) {

@@ -1,6 +1,7 @@
-#ifndef MYFUNCTIONS_H
-    #define MYFUNCTIONS_H
+#ifndef COMMANDS_H
+    #define COMMANDS_H
 
     int showHelp();
+    int generateConfig(bool force);
 #endif
 
