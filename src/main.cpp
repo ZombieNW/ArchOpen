@@ -3,6 +3,11 @@
 #include <sys/stat.h>
 #include <set>
 
+#include "commands.h"
+#include "main.h"
+
+float version = 0.7f;
+
 int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
     std::cin.get();
@@ -27,7 +32,8 @@ int main(int argc, char* argv[]) {
         const std::set<std::string> verifyCommands = {"--verify", "-v"};
 
         if (helpCommands.count(command)) {
-            std::cout << "ArchOpen Help:\n";
+            showHelp();
+            pauseAndExit(0);
         }
 
         else if (versionCommands.count(command)) {
