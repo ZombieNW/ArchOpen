@@ -13,7 +13,6 @@ float version = 0.7f;
 int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear buffer
-    std::cin.get();
     exit(exitCode);
 }
 
@@ -39,7 +38,7 @@ int main(int argc, char* argv[]) {
         }
 
         else if (versionCommands.count(command)) {
-            std::cout << "ArchOpen Version:\n";
+            showVersion();
         }
 
         else if (genConfigCommands.count(command)) {

@@ -20,6 +20,11 @@ int showHelp() {
     return 0;
 }
 
+int showVersion() {
+    std::cout << "ArchOpen v" << version << "\n";
+    return 0;
+}
+
 int generateConfig(bool force = false) {
     std::cout << "Generating config.json...\n";
     ConfigManager configManager;
