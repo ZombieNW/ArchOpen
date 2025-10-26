@@ -14,7 +14,7 @@
             bool exists();
             void generate(bool force = false);
             void save(nlohmann::json& config);
-            float getVersion();
+            std::string getVersion();
             nlohmann::json load();
             std::string autoDetectRetroArch();
             std::string createBackup(nlohmann::json& config);

@@ -236,17 +236,17 @@ std::string ConfigManager::autoDetectRetroArch() {
     return "";
 }
 
-float ConfigManager::getVersion() {
+std::string ConfigManager::getVersion() {
     try {
         nlohmann::json config = this->load();
         if (config.contains("version")) {
-            return config["version"].get<double>();
+            return config["version"].get<std::string>();
         }
     }
     catch (const std::exception& e) {
         std::cerr << "Uh Oh, Couldn't Get Version: " << e.what() << "\n";
     }
-    return 0.5;
+    return "0.5.0";
 }
 
 std::string ConfigManager::getTimestamp() {

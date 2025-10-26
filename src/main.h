@@ -1,3 +1,5 @@
 #pragma once
 
-extern double version;
+#include <string>
+
+extern std::string version;

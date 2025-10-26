@@ -9,7 +9,7 @@
 #include "main.h"
 
 
-double version = 0.7;
+std::string version = "0.7.0";
 
 int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
