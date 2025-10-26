@@ -4,6 +4,7 @@
 #include <set>
 #include <limits>
 #include <cmath>
+#include <filesystem>
 
 #include "commands.h"
 #include "main.h"
@@ -15,6 +16,15 @@ int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear buffer
     exit(exitCode);
+}
+
+bool isFilePath(const std::string& path) {
+    try {
+        std::filesystem::path p(path);
+        return p.has_filename() || p.has_parent_path(); 
+    } catch (const std::filesystem::filesystem_error& e) {
+        return false;
+    }
 }
 
 int main(int argc, char* argv[]) {
@@ -48,7 +58,7 @@ int main(int argc, char* argv[]) {
         }
 
         else if (listCommands.count(command)) {
-            std::cout << "ArchOpen List Cores:\n";
+            listCores();
         }
 
         else if (verifyCommands.count(command)) {
@@ -58,8 +68,12 @@ int main(int argc, char* argv[]) {
         else if (migrateCommands.count(command)) {
             migrateConfig();
         }
+
+        else if (isFilePath(command)) {
+            //launchROM(command);
+        }
         
-        else { //TODO make this a check if the command is a file path
+        else {
             std::cerr << "Unknown command: " << command << "\n";
             pauseAndExit(1);
         }

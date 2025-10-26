@@ -1,4 +1,6 @@
 #include <iostream>
+#include <unordered_map>
+#include <unordered_set>
 
 #include "configmanager.h"
 #include "commands.h"
@@ -31,6 +33,35 @@ int generateConfig(bool force = false) {
     ConfigManager configManager;
     try {
         configManager.generate(force);
+        return 0;
+    }
+    catch(const std::exception& e) {
+        std::cerr << e.what() << '\n';
+        return 1;
+    }
+}
+
+int listCores() {
+    std::cout << "Listing cores...\n";
+    ConfigManager configManager;
+    try {
+        const nlohmann::json& config = configManager.load(false);
+
+        std::unordered_map<std::string, std::unordered_set<std::string>> coreExtensions;
+        for (const auto& core : config["cores"]) {
+            const std::string coreName = core["core"].get<std::string>();
+            const std::string extension = core["extension"].get<std::string>();
+            coreExtensions[coreName].insert(extension);
+        }
+
+        std::cout << "Configured cores:\n";
+        for (const auto& coreExtension : coreExtensions) {
+            std::cout << "  " << coreExtension.first << " - " << ":\n";
+            for (const auto& extension : coreExtension.second) {
+                std::cout << "    " << extension << "\n";
+            }
+        }
+
         return 0;
     }
     catch(const std::exception& e) {

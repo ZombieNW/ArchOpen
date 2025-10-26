@@ -5,5 +5,6 @@
     int generateConfig(bool force);
     int showVersion();
     int migrateConfig();
+    int listCores();
 #endif
 
