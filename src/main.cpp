@@ -2,16 +2,19 @@
 #include <string>
 #include <sys/stat.h>
 #include <set>
+#include <limits>
 
 #include "commands.h"
 #include "main.h"
+
 
 float version = 0.7f;
 
 int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear buffer
     std::cin.get();
-    return exitCode;
+    exit(exitCode);
 }
 
 int main(int argc, char* argv[]) {
@@ -32,8 +35,7 @@ int main(int argc, char* argv[]) {
         const std::set<std::string> verifyCommands = {"--verify", "-v"};
 
         if (helpCommands.count(command)) {
-            int result = showHelp();
-            pauseAndExit(result);
+            showHelp();
         }
 
         else if (versionCommands.count(command)) {
@@ -41,8 +43,7 @@ int main(int argc, char* argv[]) {
         }
 
         else if (genConfigCommands.count(command)) {
-            int result = generateConfig(true);
-            pauseAndExit(result);
+            generateConfig(true);
         }
 
         else if (listCommands.count(command)) {
@@ -57,9 +58,11 @@ int main(int argc, char* argv[]) {
             std::cerr << "Unknown command: " << command << "\n";
             pauseAndExit(1);
         }
+
+        pauseAndExit(0);
     }
-    catch(const std::exception& e) {
-        std::cerr << e.what() << '\n';
+    catch (const std::exception& e) {
+        std::cerr << "Uh Oh: " << e.what() << '\n';
         pauseAndExit(1);
     }
 };
