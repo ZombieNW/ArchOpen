@@ -3,7 +3,7 @@
 #include <string>
 #include <optional>
 #include <nlohmann/json.hpp>
-#include "configmanager.h"
+#include "../config/configmanager.h"
 
 class RomLauncher {
     public:

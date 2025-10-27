@@ -1,16 +1,17 @@
 CXX = g++
 CXXFLAGS = -Wall -Wextra -std=c++17 -O2
-CPPFLAGS = -I./include
+CPPFLAGS = -I./include -I./src
 
 TARGET = ArchOpen
 TARGET_DIR = dist
 TARGET_NAME = $(TARGET).exe
 
 SRCS = src/main.cpp \
-       src/commands.cpp \
-       src/configmanager.cpp \
-       src/configmigrator.cpp \
-       src/romlauncher.cpp
+       src/cli/commands.cpp \
+       src/config/configmanager.cpp \
+       src/config/configmigrator.cpp \
+       src/core/romlauncher.cpp \
+	   src/cli/logger.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

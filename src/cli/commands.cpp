@@ -2,12 +2,13 @@
 #include <unordered_map>
 #include <unordered_set>
 
-#include "romlauncher.h"
+#include "core/romlauncher.h"
+#include "styles.h"
 #include "main.h"
 
 namespace commands {
     int showHelp() {
-        std::cout << "ArchOpen v" << version << " - By ZombieNW\n\n"
+        std::cout << styles::underline("ArchOpen v" + version + " - By ZombieNW\n\n")
               << "Usage:\n"
               << "  archopen.exe [rompath]              Launch a ROM file\n"
               << "  archopen.exe --help, -h             Show this help\n"

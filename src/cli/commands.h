@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "configmanager.h"
+#include "config/configmanager.h"
 
 namespace commands {
     int showHelp();

@@ -3,8 +3,9 @@
 #include <set>
 #include <limits>
 
-#include "commands.h"
+#include "cli/commands.h"
 #include "main.h"
+#include "cli/logger.h"
 
 
 std::string version = "0.7.0";
@@ -39,7 +40,7 @@ int main(int argc, char* argv[]) {
         const std::set<std::string> versionCommands = {"version", "-v", "--version"};
         const std::set<std::string> genConfigCommands = {"--generate-config", "-gc"};
         const std::set<std::string> listCommands = {"--list-cores", "-lc", "-l"};
-        const std::set<std::string> verifyCommands = {"--verify", "-v"};
+        const std::set<std::string> verifyCommands = {"--verify", "-vr"};
         const std::set<std::string> migrateCommands = {"--migrate", "-m"};
 
         // Handle commands
@@ -74,23 +75,23 @@ int main(int argc, char* argv[]) {
         }
 
         // Probably a file path, rom launch tme !!!
-        if (isFilePath(command)) {
-            int result = commands::launchRom(command);
-            if (result == 0) {
-                exit(0);
-            }
-            else {
-                pauseAndExit(result);
-            }
-        }
+        // if (isFilePath(command)) {
+        //     int result = commands::launchRom(command);
+        //     if (result == 0) {
+        //         exit(0);
+        //     }
+        //     else {
+        //         pauseAndExit(result);
+        //     }
+        // }
 
         // Unknown command
-        std::cerr << "Unknown command: " << command << "\n";
+        logger::logError("Unknown command: " + command);
         pauseAndExit(1);
         
     }
     catch (const std::exception& e) {
-        std::cerr << "Uh Oh: " << e.what() << '\n';
+        logger::logError(e.what());
         pauseAndExit(1);
     }
 };
