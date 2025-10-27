@@ -25,7 +25,7 @@ endif
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET_DIR)/$(TARGET_NAME)
+	$(CXX) $(CXXFLAGS) $(OBJS) ./assets/app.res -o $(TARGET_DIR)/$(TARGET_NAME)
 	@echo Build complete: $(TARGET_DIR)/$(TARGET_NAME)
 
 %.o: %.cpp
@@ -36,4 +36,5 @@ clean:
 
 test: $(TARGET)
 	./$(TARGET_DIR)/$(TARGET_NAME) testfile.nes
+
 
