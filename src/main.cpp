@@ -75,15 +75,15 @@ int main(int argc, char* argv[]) {
         }
 
         // Probably a file path, rom launch tme !!!
-        // if (isFilePath(command)) {
-        //     int result = commands::launchRom(command);
-        //     if (result == 0) {
-        //         exit(0);
-        //     }
-        //     else {
-        //         pauseAndExit(result);
-        //     }
-        // }
+        if (isFilePath(command)) {
+            int result = commands::launchRom(command);
+            if (result == 0) {
+                exit(0);
+            }
+            else {
+                pauseAndExit(result);
+            }
+        }
 
         // Unknown command
         logger::logError("Unknown command: " + command);
