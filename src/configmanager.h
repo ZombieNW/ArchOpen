@@ -1,27 +1,26 @@
+#pragma once
+
 #include <nlohmann/json.hpp>
 #include <string>
+#include <filesystem>
 
-#ifndef CONFIGMANAGER_H
-    #define CONFIGMANAGER_H
+class ConfigManager {
+    public:
+        ConfigManager();
 
-    class ConfigManager {
-        public:
-            ConfigManager();
-
-            nlohmann::json defaultConfig;
-            std::string configPath;
-
-            bool exists();
-            void generate(bool force = false);
-            void save(nlohmann::json& config);
-            std::string getVersion();
-            nlohmann::json load(bool backup = false);
-            std::string autoDetectRetroArch();
-            std::string createBackup(nlohmann::json& config);
-            std::string getConfigPath();
+        bool exists() const;
+        void generate(bool force = false);
+        nlohmann::json load(bool backup = true) const;
+        std::string autoDetectRetroArch() const;
         
-        private:
-            std::string getTimestamp();
-    };
-#endif
+        const std::filesystem::path& getConfigPath() const { return configPath; }
 
+    private:
+        std::filesystem::path configPath;
+        nlohmann::json defaultConfig;
+
+        void save(const nlohmann::json& config) const;
+        std::string createBackup(const nlohmann::json& config) const;
+        static std::string getTimestamp();
+        static std::filesystem::path getExecutableDir();
+};

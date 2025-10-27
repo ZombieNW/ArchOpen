@@ -1,11 +1,14 @@
-#ifndef COMMANDS_H
-    #define COMMANDS_H
+#pragma once
 
+#include <string>
+#include "configmanager.h"
+
+namespace commands {
     int showHelp();
-    int generateConfig(bool force);
     int showVersion();
-    int migrateConfig();
+    int generateConfig(bool force = false);
     int listCores();
-    int launchRom(const std::string& romPath);
-#endif
-
+    int migrateConfig();
+    int verifyInstall();
+    int launchRom(std::string& romPath);
+}

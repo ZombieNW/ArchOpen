@@ -1,10 +1,7 @@
 #include <iostream>
 #include <string>
-#include <sys/stat.h>
 #include <set>
 #include <limits>
-#include <cmath>
-#include <filesystem>
 
 #include "commands.h"
 #include "main.h"
@@ -18,11 +15,11 @@ int pauseAndExit(int exitCode) {
     exit(exitCode);
 }
 
-bool isFilePath(const std::string& path) {
+bool isFilePath(std::string arg) {
     try {
-        std::filesystem::path p(path);
+        std::filesystem::path p(arg);
         return p.has_filename() || p.has_parent_path(); 
-    } catch (const std::filesystem::filesystem_error& e) {
+    } catch (const std::filesystem::filesystem_error&) {
         return false;
     }
 }
@@ -30,14 +27,14 @@ bool isFilePath(const std::string& path) {
 int main(int argc, char* argv[]) {
     try {
         if (argc < 2) {
-            showHelp();
+            commands::showHelp();
             pauseAndExit(0);
         }
 
-        // Get user command
+        // User Command
         std::string command = argv[1];
-        
-        // Command options
+
+        // Command table
         const std::set<std::string> helpCommands = {"help", "-h", "--help"};
         const std::set<std::string> versionCommands = {"version", "-v", "--version"};
         const std::set<std::string> genConfigCommands = {"--generate-config", "-gc"};
@@ -45,40 +42,52 @@ int main(int argc, char* argv[]) {
         const std::set<std::string> verifyCommands = {"--verify", "-v"};
         const std::set<std::string> migrateCommands = {"--migrate", "-m"};
 
+        // Handle commands
         if (helpCommands.count(command)) {
-            showHelp();
-        }
-
-        else if (versionCommands.count(command)) {
-            showVersion();
-        }
-
-        else if (genConfigCommands.count(command)) {
-            generateConfig(true);
-        }
-
-        else if (listCommands.count(command)) {
-            listCores();
-        }
-
-        else if (verifyCommands.count(command)) {
-            std::cout << "ArchOpen Verify:\n";
-        }
-
-        else if (migrateCommands.count(command)) {
-            migrateConfig();
-        }
-
-        else if (isFilePath(command)) {
-            launchRom(command);
+            int result = commands::showHelp();
+            pauseAndExit(result);
         }
         
-        else {
-            std::cerr << "Unknown command: " << command << "\n";
-            pauseAndExit(1);
+        else if (versionCommands.count(command)) {
+            std::cout << "ArchOpen v" << version << "\n";
+            pauseAndExit(0);
+        }
+        
+        else if (genConfigCommands.count(command)) {
+            int result = commands::generateConfig(true);
+            pauseAndExit(result);
+        }
+        
+        else if (listCommands.count(command)) {
+            int result = commands::listCores();
+            pauseAndExit(result);
+        }
+        
+        else if (migrateCommands.count(command)) {
+            int result = commands::migrateConfig();
+            pauseAndExit(result);
+        }
+        
+        else if (verifyCommands.count(command)) {
+            int result = commands::verifyInstall();
+            pauseAndExit(result);
         }
 
-        pauseAndExit(0);
+        // Probably a file path, rom launch tme !!!
+        if (isFilePath(command)) {
+            int result = commands::launchRom(command);
+            if (result == 0) {
+                exit(0);
+            }
+            else {
+                pauseAndExit(result);
+            }
+        }
+
+        // Unknown command
+        std::cerr << "Unknown command: " << command << "\n";
+        pauseAndExit(1);
+        
     }
     catch (const std::exception& e) {
         std::cerr << "Uh Oh: " << e.what() << '\n';

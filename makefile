@@ -25,7 +25,6 @@ endif
 all: $(TARGET)
 
 $(TARGET): $(OBJS)
-	@if not exist $(TARGET_DIR); then mkdir $(TARGET_DIR); fi
 	$(CXX) $(CXXFLAGS) $(OBJS) -o $(TARGET_DIR)/$(TARGET_NAME)
 	@echo Build complete: $(TARGET_DIR)/$(TARGET_NAME)
 

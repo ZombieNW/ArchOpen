@@ -1,21 +1,23 @@
 #pragma once
+
 #include <nlohmann/json.hpp>
+#include <string>
+#include <string_view>
 #include <map>
 #include <functional>
-#include <string>
-#include <vector>
 
 class ConfigMigrator {
     public:
         ConfigMigrator();
 
-        bool needsMigration(const nlohmann::json& config, const std::string& targetVersion);
-        int compareVersions(const std::string& a, const std::string& b);
-        nlohmann::json migrate(const nlohmann::json& oldConfig, const std::string& targetVersion);
+        bool needsMigration(const nlohmann::json& config, std::string_view targetVersion) const;
+        nlohmann::json migrate(const nlohmann::json& oldConfig, std::string_view targetVersion) const;
 
     private:
-        std::map<std::string, std::function<nlohmann::json(const nlohmann::json&)>> migrations;
+        using MigrationFunc = std::function<nlohmann::json(const nlohmann::json&)>;
+        std::map<std::string, MigrationFunc> migrations;
 
-        nlohmann::json migrateFrom050to060(const nlohmann::json& oldConfig);
-        nlohmann::json migrateFrom060to070(const nlohmann::json& oldConfig);
+        static int compareVersions(std::string_view a, std::string_view b);
+        static nlohmann::json migrateFrom050to060(const nlohmann::json& oldConfig);
+        static nlohmann::json migrateFrom060to070(const nlohmann::json& oldConfig);
 };
