@@ -5,6 +5,7 @@
 #include <windows.h>
 
 #include "romlauncher.h"
+#include "cli/logger.h"
 
 namespace fs = std::filesystem;
 
@@ -12,7 +13,7 @@ RomLauncher::RomLauncher(ConfigManager& configManager) : configManager(configMan
 
 std::optional<RomLauncher::CoreConfig> RomLauncher::findCoreForExtension(const nlohmann::json& config, const std::string& extension) const {
     if (!config.contains("cores") || !config["cores"].is_array()) {
-        std::cerr << "Uh Oh, config missing 'cores' array.\n";
+        logger::logError("Config missing 'cores' array.\n");
         return std::nullopt;
     }
 
@@ -35,7 +36,7 @@ std::optional<RomLauncher::CoreConfig> RomLauncher::findCoreForExtension(const n
     }
 
     if (matches.empty()) {
-        std::cerr << "Uh Oh, no core found for ." << extension << "\n";
+        logger::logError("No core found for ." + extension + "\n");
         return std::nullopt;
     }
 
@@ -60,7 +61,7 @@ bool RomLauncher::launch(const std::string& romPath) {
             extension.erase(0, 1);
         }
 
-        std::cout << "Launching ROM: " << romPath << "\n";
+        logger::logInfo("Launching ROM:" + romPath + "\n");
 
         // Load config
         nlohmann::json config = configManager.load();
@@ -130,11 +131,11 @@ bool RomLauncher::launch(const std::string& romPath) {
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
 
-        std::cout << "RetroArch launched successfully!\n";
+        logger::logSuccess("RetroArch launched successfully!\n");
         return true;
 
     } catch (const std::exception& e) {
-        std::cerr << "[ERROR] Launch failed: " << e.what() << "\n";
+        logger::logError("Launch failed: " + std::string(e.what()) + "\n");
         return false;
     }
 }
@@ -143,31 +144,31 @@ bool RomLauncher::verify() {
     try {
         // Check Config
         nlohmann::json config = configManager.load(false);
-        std::cout << "config.json loaded successfully.\n";
+        logger::logSuccess("config.json loaded successfully.\n");
 
         // Check RetroArch
         std::string retroarchPath = config["retroarch_install_path"];
         fs::path retroarchExe = fs::path(retroarchPath) / "retroarch.exe";
 
         if (!fs::exists(retroarchExe)) {
-            std::cerr << "[ERROR] RetroArch not found at: " << retroarchExe.string() << "\n";
+            throw std::runtime_error("RetroArch executable not found at: " + retroarchExe.string());
 
             if (config.value("auto_detect_retroarch", false)) {
                 std::string detectedPath = configManager.autoDetectRetroArch();
                 if (!detectedPath.empty()) {
-                    std::cout << "[INFO] Found RetroArch at: " << detectedPath << "\n";
+                    logger::logInfo("Detected RetroArch at: " + detectedPath + "\n");
                     config["retroarch_install_path"] = detectedPath;
                     
                     // Note: Can't call save on const config, need to expose save publicly
                     // or return the updated config
-                    std::cout << "[INFO] Update config manually with detected path.\n";
+                    logger::logInfo("Please update config manually with detected path.\n");
                     return false;
                 }
             }
             return false;
         }
 
-        std::cout << "[SUCCESS] RetroArch executable found at: " << retroarchExe.string() << "\n";
+        logger::logSuccess("RetroArch executable found at: " + retroarchExe.string() + "\n");
 
         // Check cores
         fs::path coresPath = fs::path(retroarchPath) / "cores";
@@ -177,25 +178,26 @@ bool RomLauncher::verify() {
             if (!core.contains("core")) continue;
             
             fs::path corePath = coresPath / core["core"].get<std::string>();
-            if (!fs::exists(corePath)) {
+            // Check if core file exists and avoid duplicates in missingCores
+            if (!fs::exists(corePath) && std::find(missingCores.begin(), missingCores.end(), core["core"]) == missingCores.end()) {
                 missingCores.push_back(core["core"]);
             }
         }
 
         if (!missingCores.empty()) {
-            std::cerr << "Missing cores: ";
+            std::cerr << "Missing cores:\n";
             for (const auto& c : missingCores) {
-                std::cerr << c << " ";
+                std::cerr << "  " << c << "\n";
             }
             std::cerr << "\nYou can install the missing cores through RetroArch's Online Updater.\n";
             return false;
         }
 
-        std::cout << "All cores mentioned in config found!\n";
+        logger::logSuccess("All configured cores are present.\n");
         return true;
 
     } catch (const std::exception& e) {
-        std::cerr << "Failed to verify installation: " << e.what() << "\n";
+        logger::logError("Failed to verify installation: " + std::string(e.what()) + "\n");
         return false;
     }
 }
