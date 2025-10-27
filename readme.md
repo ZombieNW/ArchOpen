@@ -1,10 +1,13 @@
-# ArchOpen
+# ArchOpen - Next
 
 ### _An easy way to open games with RetroArch_
 
-![Languages](https://badgen.net/badge/language/Node.JS/green) ![Platform](https://badgen.net/badge/platform/Windows/blue) ![License](https://badgen.net/badge/license/MIT/red)
+![Languages](https://badgen.net/badge/language/C++/blue) ![Platform](https://badgen.net/badge/platform/Windows/blue) ![License](https://badgen.net/badge/license/MIT/red)
 
 ![Usage Gif](https://zombienw.com/assets/archopen/gif.gif)
+
+## Next?
+This is a complete rewrite of ArchOpen! I took a hard look at the source code and realized writing the whole thing in Node.JS was not a great choice. So this is a ground up rewrite in C++. Binaries went from 60MB -> ~0.5MB; so this is MUCH more lightweight. Even though the version number is higher, more bugs may exist, so make issues and pull requests !
 
 ## What?
 
@@ -13,11 +16,10 @@ If you share this desire, welcome!
 
 ## Building
 
-Install [Node.JS](https://nodejs.org/en/) and then run the following commands.
+This project uses g++ and a makefile.
 
 ```sh
-npm run setup
-npm run build
+make
 ```
 
 ## Usage
@@ -37,12 +39,6 @@ Customize config.json so each extension has a core_name.dll matching a core in t
 Right click rom file, "Open With", "Choose an App on your PC", and select ArchOpen.exe
 
 Enjoy !
-
-## Checklist
-
-- [x] Prototype CLI
-- [ ] Configuration Tool
-- [ ] UI?
 
 ## License
 
