@@ -6,6 +6,7 @@
 #include "cli/commands.h"
 #include "main.h"
 #include "cli/logger.h"
+#include <filesystem>
 
 
 std::string version = "0.7.0";
@@ -14,15 +15,6 @@ int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear buffer
     exit(exitCode);
-}
-
-bool isFilePath(std::string arg) {
-    try {
-        std::filesystem::path p(arg);
-        return p.has_filename() || p.has_parent_path(); 
-    } catch (const std::filesystem::filesystem_error&) {
-        return false;
-    }
 }
 
 int main(int argc, char* argv[]) {
@@ -75,7 +67,7 @@ int main(int argc, char* argv[]) {
         }
 
         // Probably a file path, rom launch tme !!!
-        if (isFilePath(command)) {
+        if (std::filesystem::is_regular_file(command)) {
             int result = commands::launchRom(command);
             if (result == 0) {
                 exit(0);
