@@ -7,6 +7,7 @@
 #include "configmanager.h"
 #include "configmigrator.h"
 #include "main.h"
+#include "cli/logger.h"
 
 namespace fs = std::filesystem;
 
@@ -148,12 +149,14 @@ nlohmann::json ConfigManager::load(bool backup) const {
     // Handle migration if needed
     ConfigMigrator migrator;
     if (migrator.needsMigration(config, version)) {
-        std::cout << "Config version is outdated, migrating...\n";
+        logger::logInfo("Config version is outdated, migrating...\n");
 
         if (backup) {
             std::string backupPath = createBackup(config);
             if (!backupPath.empty()) {
-                std::cout << "Backup created at: " << backupPath << "\n";
+                logger::logInfo("Backup created at: " + backupPath + "\n");
+            } else {
+                logger::logError("Couldn't create backup!\n");
             }
         }
         
@@ -167,23 +170,25 @@ nlohmann::json ConfigManager::load(bool backup) const {
 // Save default config to file
 void ConfigManager::generate(bool force) {
     if (exists() && !force) {
-        std::cerr << "config.json already exists! (Use --force to overwrite it.)\n";
+        logger::logError("config.json already exists! (Use --force to overwrite it.)\n");
         return;
     }
 
     // Backup existing config if overwriting
     if (exists() && force) {
-        std::cout << "Overwriting existing config.json...\n";
+        logger::logInfo("Overwriting existing config.json...\n");
 
         try {
             nlohmann::json existingConfig = load(false);
             std::string backupPath = createBackup(existingConfig);
 
             if (!backupPath.empty()) {
-                std::cout << "Backup created at: " << backupPath << "\n";
+                logger::logInfo("Backup created at: " + backupPath + "\n");
+            } else {
+                logger::logError("Couldn't create backup!\n");
             }
         } catch (const std::exception& e) {
-            std::cerr << "Uh Oh, couldn't backup: " << e.what() << "\n";
+            logger::logError("Couldn't create backup: " + std::string(e.what()) + "\n");
         }
     }
 
@@ -205,7 +210,7 @@ std::string ConfigManager::createBackup(const nlohmann::json& config) const {
         return backupPath;
     }
     catch (const std::exception& e) {
-        std::cerr << "Uh Oh, Couldn't Create Backup: " << e.what() << "\n";
+        logger::logError("Couldn't create backup: " + std::string(e.what()) + "\n");
         return "";
     }
 }
@@ -219,7 +224,7 @@ void ConfigManager::save(const nlohmann::json& config) const {
 
     // Write config
     file << config.dump(4);
-    std::cout << "Yipee! config.json has been generated at: " << configPath.string() << "\n";
+    logger::logSuccess("config.json has been generated at: " + configPath.string() + "\n");
 }
 
 // Get potential retroarch paths and see if any are valid

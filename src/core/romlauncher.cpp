@@ -61,7 +61,7 @@ bool RomLauncher::launch(const std::string& romPath) {
             extension.erase(0, 1);
         }
 
-        logger::logInfo("Launching ROM:" + romPath + "\n");
+        logger::logInfo("Loading ROM:" + romPath);
 
         // Load config
         nlohmann::json config = configManager.load();
@@ -104,7 +104,7 @@ bool RomLauncher::launch(const std::string& romPath) {
         if (config.value("launch_fullscreen", false)) cmd += " --fullscreen";
         cmd += " -L \"" + corePath.string() + "\" \"" + romPath + "\"";
 
-        std::cout << "Launching RetroArch...\n";
+        logger::logInfo("Launching RetroArch...");
         std::cout << "  Command: " << cmd << "\n";
 
         // Launch process

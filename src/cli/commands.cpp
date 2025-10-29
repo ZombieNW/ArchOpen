@@ -5,6 +5,7 @@
 #include "core/romlauncher.h"
 #include "styles.h"
 #include "main.h"
+#include "cli/logger.h"
 
 namespace commands {
     int showHelp() {
@@ -22,7 +23,7 @@ namespace commands {
     }
 
     int generateConfig(bool force) {
-        std::cout << "Generating config.json...\n";
+        logger::logInfo("Generating config.json...\n");
     
         try {
             ConfigManager configManager;
@@ -35,7 +36,7 @@ namespace commands {
     }
 
     int listCores() {
-        std::cout << "Listing cores...\n";
+        logger::logInfo("Listing cores...");
 
         try {
             ConfigManager configManager;
@@ -60,21 +61,22 @@ namespace commands {
             return 0;
         }
         catch(const std::exception& e) {
-            std::cerr << e.what() << '\n';
+            logger::logError(e.what());
             return 1;
         }
     }
 
     int migrateConfig() {
-        std::cout << "Migrating config.json...\n";
+        logger::logInfo("Migrating config.json...\n");
         
         try {
             ConfigManager configManager;
             configManager.load(true);
+            logger::logSuccess("config.json migrated successfully.\n");
             return 0;
         }
         catch(const std::exception& e) {
-            std::cerr << e.what() << '\n';
+            logger::logError(e.what());
             return 1;
         }
     }
@@ -85,20 +87,20 @@ namespace commands {
             RomLauncher launcher(configManager);
             return launcher.launch(romPath) ? 0 : 1;
         } catch (const std::exception& e) {
-            std::cerr << e.what() << '\n';
+            logger::logError(e.what());
             return 1;
         }
     }
 
     int verifyInstall() {
-        std::cout << "Verifying ArchOpen installation...\n";
+        logger::logInfo("Verifying ArchOpen installation...\n");
         
         try {
             ConfigManager configManager;
             RomLauncher launcher(configManager);
             return launcher.verify() ? 0 : 1;
         } catch (const std::exception& e) {
-            std::cerr << e.what() << '\n';
+            logger::logError(e.what());
             return 1;
         }
     }

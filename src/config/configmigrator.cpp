@@ -5,6 +5,7 @@
 
 #include "configmigrator.h"
 #include "main.h"
+#include "cli/logger.h"
 
 ConfigMigrator::ConfigMigrator() {
     migrations["0.5.0"] = migrateFrom050to060;
@@ -58,7 +59,7 @@ int ConfigMigrator::compareVersions(std::string_view a, std::string_view b) {
 
 nlohmann::json ConfigMigrator::migrate(const nlohmann::json& oldConfig, std::string_view targetVersion) const {
     std::string oldVersion = oldConfig.value("version", "0.5.0"); // 0.5.0 is default
-    std::cout << "Migrating config from v" << oldVersion << " to v" << targetVersion << "...\n";
+    logger::logInfo("Migrating config from v" + oldVersion + " to v" + std::string(targetVersion) + "...\n");
 
     nlohmann::json migratedConfig = oldConfig;
 
@@ -78,7 +79,7 @@ nlohmann::json ConfigMigrator::migrate(const nlohmann::json& oldConfig, std::str
     for (const auto& version : sortedVersions) {
         if (compareVersions(oldVersion, version) <= 0 && 
             compareVersions(targetVersion, version) >= 0) {
-            std::cout << "Applying migration for v" << version << "...\n";
+            logger::logInfo("Applying migration for v" + version + "...\n");
             migratedConfig = migrations.at(version)(migratedConfig);
         }
     }
