@@ -86,7 +86,7 @@ bool RomLauncher::launch(const std::string& romPath) {
         }
 
         std::cout << "  Using core: " << coreConfig->core << "\n";
-        std::cout << "  Description: " << (coreConfig->description.empty() ? "No description" : coreConfig->description) << "\n";
+        std::cout << "  Description: " << (coreConfig->description.empty() ? "No description" : coreConfig->description) << "\n\n";
 
         // Get core path
         fs::path corePath = fs::path(retroarchInstallPath) / "cores" / coreConfig->core;
@@ -105,7 +105,7 @@ bool RomLauncher::launch(const std::string& romPath) {
         cmd += " -L \"" + corePath.string() + "\" \"" + romPath + "\"";
 
         logger::logInfo("Launching RetroArch...");
-        std::cout << "  Command: " << cmd << "\n";
+        std::cout << "  Command: " << cmd << "\n\n";
 
         // Launch process
         STARTUPINFOA si = {sizeof(si)};
