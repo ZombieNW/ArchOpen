@@ -16,6 +16,7 @@ namespace commands {
               << "  archopen.exe --generate-config, -gc Generate example config\n"
               << "  archopen.exe --list-cores, -lc      List configured cores\n"
               << "  archopen.exe --verify, -v           Verify installation\n"
+              << "  archopen.exe --migrate, -m          Update config.json to latest version\n"
               << "\nExamples:\n"
               << "  archopen.exe \"C:\\Roms\\game.smc\"\n"
               << "  archopen.exe --generate-config\n\n";
