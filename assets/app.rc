@@ -1,1 +1,34 @@
-IDI_ICON1 ICON "icon.ico"
+#include <windows.h>
+
+IDI_APP_ICON ICON "icon.ico"
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,7,0,0
+ PRODUCTVERSION 0,7,0,0
+ FILEFLAGSMASK 0x3fL
+ FILEFLAGS 0x0L
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0" // U.S. English, Unicode
+        BEGIN
+            VALUE "CompanyName",      "ZombieNW\0"
+            VALUE "FileDescription",  "ArchOpen\0"
+            VALUE "FileVersion",      "0.7.0.0\0"
+            VALUE "InternalName",     "ArchOpen.exe\0"
+            VALUE "OriginalFilename", "ArchOpen.exe\0"
+            VALUE "ProductName",      "ArchOpen\0"
+            VALUE "ProductVersion",   "0.7.0.0\0"
+            VALUE "Author",           "ZombieNW\0"
+            VALUE "BuildDate",        "October 31, 2025\0"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x0409, 1200
+    END
+END
