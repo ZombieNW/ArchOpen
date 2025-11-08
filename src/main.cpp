@@ -9,7 +9,7 @@
 #include <filesystem>
 
 
-std::string version = "0.7.0";
+std::string version = "0.8.0";
 
 int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
