@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c++17 -O2 -s -static-libgcc -static-libstdc++
+CXXFLAGS = -Wall -Wextra -std=c++17 -O2 -s -static-libgcc -static-libstdc++ -static
 CPPFLAGS = -I./include -I./src
 
 TARGET = ArchOpen
