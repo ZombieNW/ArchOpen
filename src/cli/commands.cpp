@@ -41,21 +41,25 @@ namespace commands {
 
         try {
             ConfigManager configManager;
-            const nlohmann::json& config = configManager.load(false);
+            const auto& config = configManager.load(false);
+
+            // Check if we have cores
+            if (!config.contains("cores") || config["cores"].empty() || !config["cores"].is_array()) {
+                logger::logError("No cores configured.\n");
+                return 0;
+            }
 
             // Group extensions by core
-            std::unordered_map<std::string, std::unordered_set<std::string>> coreExtensions;
+            std::map<std::string, std::vector<std::string>> coreExtensions;
             for (const auto& core : config["cores"]) {
-                std::string coreName = core["core"].get<std::string>();
-                std::string extension = core["extension"].get<std::string>();
-                coreExtensions[coreName].insert(extension);
+                coreExtensions[core["core"]].push_back(core["extension"]);
             }
 
             std::cout << "Configured cores:\n";
             for (const auto& [coreName, extensions] : coreExtensions) {
                 std::cout << "  " << coreName << ":\n";
                 for (const auto& ext : extensions) {
-                    std::cout << "    " << ext << "\n";
+                    std::cout << "    - " << ext << "\n"; // Added a dash for better visual list
                 }
             }
 
