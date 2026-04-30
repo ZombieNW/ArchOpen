@@ -3,8 +3,7 @@
 IDI_APP_ICON ICON "icon.ico"
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,7,0,0
- PRODUCTVERSION 0,7,0,0
+ FILEVERSION 0,8,2,0
  FILEFLAGSMASK 0x3fL
  FILEFLAGS 0x0L
  FILEOS 0x4L
@@ -15,15 +14,10 @@ BEGIN
     BEGIN
         BLOCK "040904b0" // U.S. English, Unicode
         BEGIN
-            VALUE "CompanyName",      "ZombieNW\0"
-            VALUE "FileDescription",  "ArchOpen\0"
-            VALUE "FileVersion",      "0.7.0.0\0"
-            VALUE "InternalName",     "ArchOpen.exe\0"
             VALUE "OriginalFilename", "ArchOpen.exe\0"
             VALUE "ProductName",      "ArchOpen\0"
-            VALUE "ProductVersion",   "0.7.0.0\0"
-            VALUE "Author",           "ZombieNW\0"
-            VALUE "BuildDate",        "October 31, 2025\0"
+            VALUE "FileVersion",   "0.8.2.0\0"
+            VALUE "LegalCopyright",    "ZombieNW\0"
         END
     END
 
