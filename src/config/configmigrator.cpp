@@ -1,10 +1,8 @@
-#include <iostream>
 #include <sstream>
 #include <algorithm>
 #include <vector>
 
 #include "configmigrator.h"
-#include "main.h"
 #include "cli/logger.h"
 
 ConfigMigrator::ConfigMigrator() {
@@ -30,7 +28,7 @@ int ConfigMigrator::compareVersions(std::string_view a, std::string_view b) {
         std::string str(v);
         std::stringstream ss(str);
         std::string token;
-        
+
         while (std::getline(ss, token, '.')) {
             try {
                 parts.push_back(std::stoi(token));
@@ -50,7 +48,7 @@ int ConfigMigrator::compareVersions(std::string_view a, std::string_view b) {
     for (size_t i = 0; i < maxLen; ++i) {
         int numA = (i < versionA.size()) ? versionA[i] : 0;
         int numB = (i < versionB.size()) ? versionB[i] : 0;
-        
+
         if (numA < numB) return -1;
         if (numA > numB) return 1;
     }
@@ -70,14 +68,14 @@ nlohmann::json ConfigMigrator::migrate(const nlohmann::json& oldConfig, std::str
         sortedVersions.push_back(v);
     }
 
-    std::sort(sortedVersions.begin(), sortedVersions.end(), 
+    std::sort(sortedVersions.begin(), sortedVersions.end(),
         [](const std::string& a, const std::string& b) {
             return compareVersions(a, b) < 0;
         });
 
     // Migrate one function at a time
     for (const auto& version : sortedVersions) {
-        if (compareVersions(oldVersion, version) <= 0 && 
+        if (compareVersions(oldVersion, version) <= 0 &&
             compareVersions(targetVersion, version) >= 0) {
             logger::logInfo("Applying migration for v" + version + "...\n");
             migratedConfig = migrations.at(version)(migratedConfig);

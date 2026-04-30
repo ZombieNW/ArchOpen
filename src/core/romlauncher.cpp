@@ -158,7 +158,7 @@ bool RomLauncher::verify() {
                 if (!detectedPath.empty()) {
                     logger::logInfo("Detected RetroArch at: " + detectedPath + "\n");
                     config["retroarch_install_path"] = detectedPath;
-                    
+
                     // Note: Can't call save on const config, need to expose save publicly
                     // or return the updated config
                     logger::logInfo("Please update config manually with detected path.\n");
@@ -176,7 +176,7 @@ bool RomLauncher::verify() {
 
         for (const auto& core : config["cores"]) {
             if (!core.contains("core")) continue;
-            
+
             fs::path corePath = coresPath / core["core"].get<std::string>();
             // Check if core file exists and avoid duplicates in missingCores
             if (!fs::exists(corePath) && std::find(missingCores.begin(), missingCores.end(), core["core"]) == missingCores.end()) {

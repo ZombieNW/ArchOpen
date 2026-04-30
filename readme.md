@@ -16,10 +16,11 @@ If you share this desire, welcome!
 
 ## Building
 
-This project uses g++ and a makefile.
+This project now uses cmake.
 
 ```sh
-make
+cmake -S . -B Build
+cmake --build build
 ```
 
 ## Usage

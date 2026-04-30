@@ -12,7 +12,7 @@ class ConfigManager {
         void generate(bool force = false);
         nlohmann::json load(bool backup = true) const;
         std::string autoDetectRetroArch() const;
-        
+
         const std::filesystem::path& getConfigPath() const { return configPath; }
 
     private:

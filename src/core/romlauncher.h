@@ -11,7 +11,7 @@ class RomLauncher {
 
         bool launch(const std::string& romPath);
         bool verify();
-    
+
     private:
         struct CoreConfig {
             std::string core;
@@ -23,7 +23,7 @@ class RomLauncher {
         ConfigManager& configManager;
 
         std::optional<CoreConfig> findCoreForExtension(
-            const nlohmann::json& config, 
+            const nlohmann::json& config,
             const std::string& extension
         ) const;
 };

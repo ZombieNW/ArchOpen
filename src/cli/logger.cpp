@@ -8,7 +8,7 @@ namespace logger {
         std::cout << styles::blue("INFO: ") << message << std::endl;
     }
 
-    void logWarning(const std::string& message){ 
+    void logWarning(const std::string& message){
         std::cout << styles::yellow("WARNING: ") << message << std::endl;
     }
 
@@ -20,7 +20,7 @@ namespace logger {
         std::cout << styles::magenta("DEBUG: ") << message << std::endl;
     }
 
-    void logSuccess(const std::string& message) { 
+    void logSuccess(const std::string& message) {
         std::cout << styles::green("SUCCESS: ") << message << std::endl;
     }
 }

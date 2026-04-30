@@ -1,23 +1,21 @@
+#include <filesystem>
 #include <iostream>
 #include <string>
 #include <set>
-#include <limits>
 
 #include "cli/commands.h"
 #include "main.h"
 #include "cli/logger.h"
-#include <filesystem>
 
-
-std::string version = "0.8.0";
+std::string version = "0.8.2";
 
 int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
-    std::cin.sync(); 
+    std::cin.sync();
     std::cin.get();
     exit(exitCode);
 }
-// 8=====)
+
 int main(int argc, char* argv[]) {
     try {
         if (argc < 2) {

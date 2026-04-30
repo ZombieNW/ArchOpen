@@ -1,5 +1,4 @@
 #include <fstream>
-#include <iostream>
 #include <ctime>
 #include <array>
 #include <windows.h>
@@ -11,7 +10,7 @@
 
 namespace fs = std::filesystem;
 
-ConfigManager::ConfigManager() 
+ConfigManager::ConfigManager()
     : configPath(getExecutableDir() / "config.json")
 {
     defaultConfig = {
@@ -115,7 +114,7 @@ ConfigManager::ConfigManager()
 fs::path ConfigManager::getExecutableDir() {
     wchar_t buffer[MAX_PATH]; // Character buffer, MAX_PATH is 260
     DWORD length = GetModuleFileNameW(nullptr, buffer, MAX_PATH); // Use windows api to get the current executable path and store it in buffer
-    
+
     if (length == 0 || length == MAX_PATH) {
         throw std::runtime_error("Failed to get executable path");
     }
@@ -137,7 +136,7 @@ nlohmann::json ConfigManager::load(bool backup) const {
     if (!file.is_open()) {
         throw std::runtime_error("Couldn't open config file: " + configPath.string());
     }
-    
+
     // Parse JSON
     nlohmann::json config;
     try {
@@ -159,7 +158,7 @@ nlohmann::json ConfigManager::load(bool backup) const {
                 logger::logError("Couldn't create backup!\n");
             }
         }
-        
+
         config = migrator.migrate(config, version);
         save(config);
     }
@@ -199,7 +198,7 @@ void ConfigManager::generate(bool force) {
 // Backup existing config to file
 std::string ConfigManager::createBackup(const nlohmann::json& config) const {
     std::string backupPath = configPath.string() + "." + getTimestamp() + ".bak";
-    
+
     try {
         std::ofstream backup(backupPath);
         if (!backup.is_open()) {
@@ -231,7 +230,7 @@ void ConfigManager::save(const nlohmann::json& config) const {
 std::string ConfigManager::autoDetectRetroArch() const {
     const char* username = std::getenv("USERNAME");
     std::string userPath = username ? std::string(username) : "Default";
-    
+
     const std::array<std::string, 6> possiblePaths = {
         "C:\\Program Files\\RetroArch",
         "C:\\Program Files (x86)\\RetroArch",

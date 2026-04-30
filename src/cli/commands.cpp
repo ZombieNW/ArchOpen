@@ -25,7 +25,7 @@ namespace commands {
 
     int generateConfig(bool force) {
         logger::logInfo("Generating config.json...\n");
-    
+
         try {
             ConfigManager configManager;
             configManager.generate(force);
@@ -69,7 +69,7 @@ namespace commands {
 
     int migrateConfig() {
         logger::logInfo("Migrating config.json...\n");
-        
+
         try {
             ConfigManager configManager;
             configManager.load(true);
@@ -95,7 +95,7 @@ namespace commands {
 
     int verifyInstall() {
         logger::logInfo("Verifying ArchOpen installation...\n");
-        
+
         try {
             ConfigManager configManager;
             RomLauncher launcher(configManager);
