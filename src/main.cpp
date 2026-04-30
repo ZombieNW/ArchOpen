@@ -16,7 +16,7 @@ int pauseAndExit(int exitCode) {
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear buffer
     exit(exitCode);
 }
-
+// 8=====)
 int main(int argc, char* argv[]) {
     try {
         if (argc < 2) {
@@ -40,27 +40,27 @@ int main(int argc, char* argv[]) {
             int result = commands::showHelp();
             pauseAndExit(result);
         }
-        
+
         else if (versionCommands.count(command)) {
             std::cout << "ArchOpen v" << version << "\n";
             pauseAndExit(0);
         }
-        
+
         else if (genConfigCommands.count(command)) {
             int result = commands::generateConfig(true);
             pauseAndExit(result);
         }
-        
+
         else if (listCommands.count(command)) {
             int result = commands::listCores();
             pauseAndExit(result);
         }
-        
+
         else if (migrateCommands.count(command)) {
             int result = commands::migrateConfig();
             pauseAndExit(result);
         }
-        
+
         else if (verifyCommands.count(command)) {
             int result = commands::verifyInstall();
             pauseAndExit(result);
@@ -80,7 +80,7 @@ int main(int argc, char* argv[]) {
         // Unknown command
         logger::logError("Unknown command: " + command);
         pauseAndExit(1);
-        
+
     }
     catch (const std::exception& e) {
         logger::logError(e.what());
