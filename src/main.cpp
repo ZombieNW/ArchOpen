@@ -13,7 +13,8 @@ std::string version = "0.8.0";
 
 int pauseAndExit(int exitCode) {
     std::cout << "Press Enter to continue...";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // clear buffer
+    std::cin.sync(); 
+    std::cin.get();
     exit(exitCode);
 }
 // 8=====)
