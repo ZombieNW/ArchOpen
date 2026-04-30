@@ -16,7 +16,8 @@ set(SOURCES
 )
 
 if(WIN32)
-  set(RES_FILE "assets/app.res")
+  set(RES_FILE "${CMAKE_CURRENT_SOURCE_DIR}/assets/app.res")
+  set_source_files_properties(${RES_FILE} PROPERTIES EXTERNAL_OBJECT true)
 endif()
 
 add_executable(${PROJECT_NAME} ${SOURCES} ${RES_FILE})
