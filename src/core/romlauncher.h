@@ -3,27 +3,26 @@
 #include <string>
 #include <optional>
 #include <nlohmann/json.hpp>
+
 #include "../config/configmanager.h"
 
 class RomLauncher {
-    public:
-        explicit RomLauncher(ConfigManager& configManager);
+public:
+    explicit RomLauncher(ConfigManager& configManager);
 
-        bool launch(const std::string& romPath);
-        bool verify();
+    bool launch(const std::string& romPath);
+    bool verify();
 
-    private:
-        struct CoreConfig {
-            std::string core;
-            std::string extension;
-            std::string description;
-            int priority = 0;
-        };
+private:
+    struct CoreConfig {
+        std::string core;
+        std::string extension;
+        std::string description;
+        int priority = 0;
+    };
 
-        ConfigManager& configManager;
+    ConfigManager& configManager;
 
-        std::optional<CoreConfig> findCoreForExtension(
-            const nlohmann::json& config,
-            const std::string& extension
-        ) const;
+    std::optional<CoreConfig> findCoreForExtension(const nlohmann::json& config, const std::string& extension) const;
+    std::string buildLaunchCommand(const std::string& retroarchExe, const std::string& corePath, const std::string& romPath, bool fullscreen) const;
 };
