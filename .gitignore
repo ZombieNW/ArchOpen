@@ -3,3 +3,4 @@ dist/*
 *.o
 .clangd
 build/
+__cmake_*
