@@ -1,6 +1,4 @@
 #include <iostream>
-#include <unordered_map>
-#include <unordered_set>
 
 #include "core/romlauncher.h"
 #include "styles.h"
@@ -31,7 +29,7 @@ namespace commands {
             configManager.generate(force);
             return 0;
         } catch (const std::exception& e) {
-            std::cerr << e.what() << '\n';
+            logger::logError(e.what());
             return 1;
         }
     }
@@ -45,7 +43,7 @@ namespace commands {
 
             // Check if we have cores
             if (!config.contains("cores") || config["cores"].empty() || !config["cores"].is_array()) {
-                logger::logError("No cores configured.\n");
+                logger::logError("No cores configured.");
                 return 0;
             }
 
@@ -59,7 +57,7 @@ namespace commands {
             for (const auto& [coreName, extensions] : coreExtensions) {
                 std::cout << "  " << coreName << ":\n";
                 for (const auto& ext : extensions) {
-                    std::cout << "    - " << ext << "\n"; // Added a dash for better visual list
+                    std::cout << "    - " << ext << "\n";
                 }
             }
 
