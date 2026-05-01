@@ -13,7 +13,7 @@ RomLauncher::RomLauncher(ConfigManager& configManager) : configManager(configMan
 
 std::optional<RomLauncher::CoreConfig> RomLauncher::findCoreForExtension(const nlohmann::json& config, const std::string& extension) const {
     if (!config.contains("cores") || !config["cores"].is_array()) {
-        logger::logError("Config missing 'cores' array.\n");
+        logger::logError("Config missing 'cores' array.");
         return std::nullopt;
     }
 
@@ -36,7 +36,7 @@ std::optional<RomLauncher::CoreConfig> RomLauncher::findCoreForExtension(const n
     }
 
     if (matches.empty()) {
-        logger::logError("No core found for ." + extension + "\n");
+        logger::logError("No core found for ." + extension);
         return std::nullopt;
     }
 
@@ -64,7 +64,7 @@ bool RomLauncher::launch(const std::string& romPath) {
         logger::logInfo("Loading ROM:" + romPath);
 
         // Load config
-        nlohmann::json config = configManager.load();
+        nlohmann::json config = configManager.load(false);
         std::string retroarchInstallPath = config["retroarch_install_path"];
         fs::path retroarchExe = fs::path(retroarchInstallPath) / "retroarch.exe";
 
@@ -135,7 +135,7 @@ bool RomLauncher::launch(const std::string& romPath) {
         return true;
 
     } catch (const std::exception& e) {
-        logger::logError("Launch failed: " + std::string(e.what()) + "\n");
+        logger::logError("Launch failed: " + std::string(e.what()));
         return false;
     }
 }
@@ -151,24 +151,24 @@ bool RomLauncher::verify() {
         fs::path retroarchExe = fs::path(retroarchPath) / "retroarch.exe";
 
         if (!fs::exists(retroarchExe)) {
-            throw std::runtime_error("RetroArch executable not found at: " + retroarchExe.string());
+            logger::logError("RetroArch executable not found at: " + retroarchExe.string());
 
             if (config.value("auto_detect_retroarch", false)) {
                 std::string detectedPath = configManager.autoDetectRetroArch();
                 if (!detectedPath.empty()) {
-                    logger::logInfo("Detected RetroArch at: " + detectedPath + "\n");
+                    logger::logInfo("Detected RetroArch at: " + detectedPath);
                     config["retroarch_install_path"] = detectedPath;
 
                     // Note: Can't call save on const config, need to expose save publicly
                     // or return the updated config
-                    logger::logInfo("Please update config manually with detected path.\n");
+                    logger::logInfo("Please update config manually with detected path.");
                     return false;
                 }
             }
             return false;
         }
 
-        logger::logSuccess("RetroArch executable found at: " + retroarchExe.string() + "\n");
+        logger::logSuccess("RetroArch executable found at: " + retroarchExe.string());
 
         // Check cores
         fs::path coresPath = fs::path(retroarchPath) / "cores";
@@ -193,11 +193,11 @@ bool RomLauncher::verify() {
             return false;
         }
 
-        logger::logSuccess("All configured cores are present.\n");
+        logger::logSuccess("All configured cores are present.");
         return true;
 
     } catch (const std::exception& e) {
-        logger::logError("Failed to verify installation: " + std::string(e.what()) + "\n");
+        logger::logError("Failed to verify installation: " + std::string(e.what()));
         return false;
     }
 }

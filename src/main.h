@@ -2,4 +2,4 @@
 
 #include <string>
 
-extern std::string version;
+const extern std::string version;

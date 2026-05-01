@@ -148,14 +148,14 @@ nlohmann::json ConfigManager::load(bool backup) const {
     // Handle migration if needed
     ConfigMigrator migrator;
     if (migrator.needsMigration(config, version)) {
-        logger::logInfo("Config version is outdated, migrating...\n");
+        logger::logInfo("Config version is outdated, migrating...");
 
         if (backup) {
             std::string backupPath = createBackup(config);
             if (!backupPath.empty()) {
-                logger::logInfo("Backup created at: " + backupPath + "\n");
+                logger::logInfo("Backup created at: " + backupPath);
             } else {
-                logger::logError("Couldn't create backup!\n");
+                logger::logError("Couldn't create backup!");
             }
         }
 
@@ -182,9 +182,9 @@ void ConfigManager::generate(bool force) {
             std::string backupPath = createBackup(existingConfig);
 
             if (!backupPath.empty()) {
-                logger::logInfo("Backup created at: " + backupPath + "\n");
+                logger::logInfo("Backup created at: " + backupPath);
             } else {
-                logger::logError("Couldn't create backup!\n");
+                logger::logError("Couldn't create backup!");
             }
         } catch (const std::exception& e) {
             logger::logError("Couldn't create backup: " + std::string(e.what()) + "\n");

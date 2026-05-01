@@ -24,7 +24,7 @@ namespace commands {
     }
 
     int generateConfig(bool force) {
-        logger::logInfo("Generating config.json...\n");
+        logger::logInfo("Generating config.json...");
 
         try {
             ConfigManager configManager;
@@ -68,12 +68,12 @@ namespace commands {
     }
 
     int migrateConfig() {
-        logger::logInfo("Migrating config.json...\n");
+        logger::logInfo("Migrating config.json...");
 
         try {
             ConfigManager configManager;
             configManager.load(true);
-            logger::logSuccess("config.json migrated successfully.\n");
+            logger::logSuccess("config.json migrated successfully.");
             return 0;
         }
         catch(const std::exception& e) {
@@ -94,7 +94,7 @@ namespace commands {
     }
 
     int verifyInstall() {
-        logger::logInfo("Verifying ArchOpen installation...\n");
+        logger::logInfo("Verifying ArchOpen installation...");
 
         try {
             ConfigManager configManager;
