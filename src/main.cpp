@@ -9,18 +9,10 @@
 
 const std::string version = "0.8.3";
 
-int pauseAndExit(int exitCode) {
-    std::cout << "Press Enter to continue...";
-    std::cin.sync();
-    std::cin.get();
-    return exitCode;
-}
-
 int main(int argc, char* argv[]) {
     try {
         if (argc < 2) {
-            commands::showHelp();
-            return pauseAndExit(0);
+            return commands::showHelp();
         }
 
         // User Command
@@ -36,53 +28,42 @@ int main(int argc, char* argv[]) {
 
         // Handle commands
         if (helpCommands.count(command)) {
-            int result = commands::showHelp();
-            return pauseAndExit(result);
+            return commands::showHelp();
         }
 
         else if (versionCommands.count(command)) {
             std::cout << "ArchOpen v" << version << "\n";
-            return pauseAndExit(0);
+            return 0;
         }
 
         else if (genConfigCommands.count(command)) {
-            int result = commands::generateConfig(true);
-            return pauseAndExit(result);
+            return commands::generateConfig(true);
         }
 
         else if (listCommands.count(command)) {
-            int result = commands::listCores();
-            return pauseAndExit(result);
+            return commands::listCores();
         }
 
         else if (migrateCommands.count(command)) {
-            int result = commands::migrateConfig();
-            return pauseAndExit(result);
+            return commands::migrateConfig();
         }
 
         else if (verifyCommands.count(command)) {
-            int result = commands::verifyInstall();
-            return pauseAndExit(result);
+            return commands::verifyInstall();
         }
 
         // Probably a file path, rom launch tme !!!
         if (std::filesystem::is_regular_file(command)) {
-            int result = commands::launchRom(command);
-            if (result == 0) {
-                return 0;
-            }
-            else {
-                return pauseAndExit(result);
-            }
+            return commands::launchRom(command);
         }
 
         // Unknown command
         logger::logError("Unknown command: " + command);
-        return pauseAndExit(1);
+        return 1;
 
     }
     catch (const std::exception& e) {
         logger::logError(e.what());
-        return pauseAndExit(1);
+        return 1;
     }
 };
