@@ -7,7 +7,7 @@
 #include "main.h"
 #include "cli/logger.h"
 
-const std::string version = "0.8.3";
+const std::string version = "0.9.0";
 
 int main(int argc, char* argv[]) {
     try {
