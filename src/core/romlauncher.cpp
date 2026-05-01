@@ -149,8 +149,9 @@ bool RomLauncher::verify() {
 
             fs::path corePath = coresPath / core["core"].get<std::string>();
             // Check if core file exists and avoid duplicates in missingCores
-            if (!fs::exists(corePath) && std::find(missingCores.begin(), missingCores.end(), core["core"]) == missingCores.end()) {
-                missingCores.push_back(core["core"]);
+            std::string coreName = core["core"].get<std::string>();
+            if (!fs::exists(corePath) && std::find(missingCores.begin(), missingCores.end(), coreName) == missingCores.end()) {
+                missingCores.push_back(coreName);
             }
         }
 
