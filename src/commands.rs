@@ -131,6 +131,7 @@ pub fn verify_config_command() {
     logger::log_info("Verification complete!".to_string());
 }
 
+/// Launches rom at given path
 pub fn launch_rom(rom_path: &String) {
     let config_manager = ConfigManager::new();
     let rom_launcher = RomLauncher::new(config_manager);

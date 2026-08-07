@@ -36,10 +36,12 @@ impl ConfigManager {
         ConfigManager { config_path }
     }
 
-    pub fn exists(&self) -> bool {
+    /// Ensures config file exists
+    fn exists(&self) -> bool {
         return self.config_path.exists();
     }
 
+    /// Loads config file
     pub fn load(&self) -> Result<Config, Box<dyn std::error::Error>> {
         if !self.exists() {
             return Err("config.yaml doesn't exist".into());
@@ -53,7 +55,7 @@ impl ConfigManager {
         return Ok(config);
     }
 
-    // TODO --force cli option
+    /// Generates config from default
     pub fn generate(&self, force: bool) {
         // Backup if it exists
         if self.exists() && !force {
@@ -77,7 +79,8 @@ impl ConfigManager {
         self.save(&Config::default());
     }
 
-    pub fn save(&self, config: &Config) {
+    /// Saves config to file
+    fn save(&self, config: &Config) {
         let config_str = to_string(config).expect("Failed to serialize config");
         fs::write(&self.config_path, config_str).expect("Failed to write config file");
         logger::log_success(format!(
@@ -86,7 +89,8 @@ impl ConfigManager {
         ));
     }
 
-    pub fn backup(&self, config: &Config) {
+    /// Backs up current config
+    fn backup(&self, config: &Config) {
         let backup_path = self
             .config_path
             .with_added_extension(format!("{}.bak", get_timestamp()));
