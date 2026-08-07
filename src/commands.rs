@@ -13,13 +13,13 @@ pub fn help_command() {
 Usage:
     archopen.exe [rompath]                  Launch a ROM file
     archopen.exe --help, -h                 Show this message
-    archopen.exe --generate-config, -gc     Generate example config
-    archopen.exe --list-cores, -lc          List configured cores
-    archopen.exe --verify, -v               Verify config
-    archopen.exe --migrate, -m              Update config to latest version
+    archopen.exe --generate-config, -g      Generate example config
+    archopen.exe --cores, -c                List configured cores
+    archopen.exe --verify, -vr              Verify configured cores
+    archopen.exe --version, -v              See current version
 
 Examples:
-    archopen.exe -gc
+    archopen.exe -g
     archopen.exe "C:\roms\game.smc"
 "#
     );
@@ -34,7 +34,5 @@ pub fn generate_config_command() {}
 pub fn list_cores_command() {}
 
 pub fn verify_config_command() {}
-
-pub fn migrate_config_command() {}
 
 pub fn launch_rom() {}

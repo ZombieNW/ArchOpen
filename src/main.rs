@@ -8,10 +8,9 @@ const VERSION: &str = "0.9.0";
 
 const HELP_COMMANDS: &[&str] = &["help", "--help", "-h"];
 const VERSION_COMMANDS: &[&str] = &["--version", "-v"];
-const GENERATE_CONFIG_COMMANDS: &[&str] = &["--generate-config", "-gc"];
-const LIST_CORES_COMMANDS: &[&str] = &["--list-cores", "-lc", "-l"];
+const GENERATE_CONFIG_COMMANDS: &[&str] = &["--generate-config", "-g"];
+const LIST_CORES_COMMANDS: &[&str] = &["--cores", "--list-cores", "-c", "-lc", "-l"];
 const VERIFY_CONFIG_COMMANDS: &[&str] = &["--verify", "-vr"];
-const MIGRATE_CONFIG_COMMANDS: &[&str] = &["--migrate", "-m"];
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -30,8 +29,6 @@ fn main() {
         return commands::list_cores_command();
     } else if VERIFY_CONFIG_COMMANDS.contains(&command.as_str()) {
         return commands::verify_config_command();
-    } else if MIGRATE_CONFIG_COMMANDS.contains(&command.as_str()) {
-        return commands::migrate_config_command();
     }
 
     if utils::is_file(command) {
