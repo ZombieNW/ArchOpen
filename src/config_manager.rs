@@ -1,8 +1,11 @@
-use std::{env, fs, path::PathBuf};
+use std::{env, fmt::format, fs, path::PathBuf};
 
 use noyalib::{from_str, to_string};
 
-use crate::{logger, utils};
+use crate::{
+    logger,
+    utils::{self, get_timestamp},
+};
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Config {
@@ -51,7 +54,26 @@ impl ConfigManager {
     }
 
     // TODO --force cli option
-    pub fn generate(&self) {
+    pub fn generate(&self, force: bool) {
+        // Backup if it exists
+        if self.exists() && !force {
+            logger::log_error(
+                "config.yaml already exists! (Use --force to overwrite it.)".to_string(),
+            );
+            return;
+        }
+        if self.exists() && force {
+            let config = match self.load() {
+                Ok(config) => config,
+                Err(e) => {
+                    return logger::log_error(format!("Failed to load config: {}.", e));
+                }
+            };
+
+            self.backup(&config);
+        }
+
+        // Save default to config.yaml
         self.save(&Config::default());
     }
 
@@ -64,7 +86,19 @@ impl ConfigManager {
         ));
     }
 
-    // TODO create backup
+    pub fn backup(&self, config: &Config) {
+        let backup_path = self
+            .config_path
+            .with_added_extension(format!("{}.bak", get_timestamp()));
+
+        let config_str = to_string(config).expect("Failed to serialize config");
+        fs::write(&backup_path, config_str).expect("Failed to write backup config");
+
+        logger::log_info(format!(
+            "config.yaml backed up to: {}",
+            backup_path.display()
+        ));
+    }
 }
 
 impl Config {

@@ -24,7 +24,7 @@ fn main() {
     } else if VERSION_COMMANDS.contains(&command.as_str()) {
         return commands::version_command();
     } else if GENERATE_CONFIG_COMMANDS.contains(&command.as_str()) {
-        return commands::generate_config_command();
+        return commands::generate_config_command(args.get(2) == Some(&"--force".to_string()));
     } else if LIST_CORES_COMMANDS.contains(&command.as_str()) {
         return commands::list_cores_command();
     } else if VERIFY_CONFIG_COMMANDS.contains(&command.as_str()) {

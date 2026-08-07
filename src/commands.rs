@@ -39,9 +39,9 @@ pub fn version_command() {
 }
 
 /// Writes the default config file to config.yml
-pub fn generate_config_command() {
+pub fn generate_config_command(force: bool) {
     let config_manager = ConfigManager::new();
-    config_manager.generate();
+    config_manager.generate(force);
 }
 
 /// Lists all extensions sorted by core
