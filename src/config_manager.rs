@@ -105,8 +105,8 @@ impl ConfigManager {
     }
 }
 
-impl Config {
-    pub fn default() -> Self {
+impl Default for Config {
+    fn default() -> Self {
         Config {
             version: super::VERSION.to_string(),
             retroarch_install_path: match utils::detect_retroarch() {
