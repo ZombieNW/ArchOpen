@@ -20,20 +20,19 @@ fn main() {
     let command = &args[1];
 
     if HELP_COMMANDS.contains(&command.as_str()) {
-        return commands::help_command();
+        commands::help_command();
     } else if VERSION_COMMANDS.contains(&command.as_str()) {
-        return commands::version_command();
+        commands::version_command();
     } else if GENERATE_CONFIG_COMMANDS.contains(&command.as_str()) {
-        return commands::generate_config_command(args.get(2) == Some(&"--force".to_string()));
+        let force = args.get(2).map(|s| s.as_str()) == Some("--force");
+        commands::generate_config_command(force);
     } else if LIST_CORES_COMMANDS.contains(&command.as_str()) {
-        return commands::list_cores_command();
+        commands::list_cores_command();
     } else if VERIFY_CONFIG_COMMANDS.contains(&command.as_str()) {
-        return commands::verify_config_command();
+        commands::verify_config_command();
+    } else if utils::is_file(command) {
+        commands::launch_rom(command);
+    } else {
+        logger::log_error(format!("Unknown Command: {}", command));
     }
-
-    if utils::is_file(command) {
-        return commands::launch_rom(command);
-    }
-
-    return logger::log_error(format!("Unknown Command: {}", command));
 }
