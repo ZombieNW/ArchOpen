@@ -1,10 +1,20 @@
 [package]
-name = "archopen-rs"
-version = "0.1.0"
+name = "archopen"
+version = "0.9.0"
+description = "An easy way to open games with RetroArch"
 edition = "2024"
+build = "build.rs"
+
+[package.metadata.winresource]
+OriginalFilename = "archopen.exe"
+LegalCopyright = "ZombieNW 2026"
+
+[build-dependencies]
+winresource = "0.1"
 
 [dependencies]
 chrono = "0.4.45"
 noyalib = "0.0.18"
 serde = "1.0.229"
 stylic = "0.3.1"
+winresource = "0.1.31"
