@@ -1,9 +1,16 @@
 use std::{env, path::Path};
 
+mod commands;
+mod logger;
+
+use commands::help_command;
+
+const VERSION: &str = "0.9.0";
+
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
-        return println!("Help Command");
+        return help_command();
     }
     let command = &args[1];
 
@@ -15,7 +22,7 @@ fn main() {
     let migrate_config_commands = ["--migrate", "-m"];
 
     if help_commands.contains(&command.as_str()) {
-        println!("Help Command");
+        return help_command();
     } else if version_commands.contains(&command.as_str()) {
         println!("Version Command");
     } else if generate_config_commands.contains(&command.as_str()) {
@@ -26,11 +33,13 @@ fn main() {
         println!("Verify Config Command");
     } else if migrate_config_commands.contains(&command.as_str()) {
         println!("Migrate Config Command");
-    } else if is_file(command) {
-        println!("Rom time!");
-    } else {
-        println!("Unknown Command");
     }
+
+    if is_file(command) {
+        logger::log_error(format!("Unknown Command: {}", command));
+    }
+
+    return help_command();
 }
 
 fn is_file(path_name: &String) -> bool {

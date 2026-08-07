@@ -5,3 +5,12 @@ version = 4
 [[package]]
 name = "archopen-rs"
 version = "0.1.0"
+dependencies = [
+ "stylic",
+]
+
+[[package]]
+name = "stylic"
+version = "0.3.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "de1923b57151f3cb64aedc97d995dc09b8df24ef67910ce3c722281010a7f85d"
