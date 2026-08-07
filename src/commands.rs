@@ -1,4 +1,4 @@
-use std::{collections::HashMap, iter::Map, path::Path};
+use std::{collections::HashMap, path::Path};
 
 use stylic::Styleable;
 
@@ -7,6 +7,7 @@ use crate::{commands::config_manager::ConfigManager, logger};
 #[path = "config_manager.rs"]
 mod config_manager;
 
+/// Displays version number and cli commands
 pub fn help_command() {
     println!(
         "{}",
@@ -32,15 +33,18 @@ Examples:
     );
 }
 
+/// Displays the version
 pub fn version_command() {
     println!("ArchOpen v{} - by ZombieNW", super::VERSION);
 }
 
+/// Writes the default config file to config.yml
 pub fn generate_config_command() {
     let config_manager = ConfigManager::new();
     config_manager.generate();
 }
 
+/// Lists all extensions sorted by core
 pub fn list_cores_command() {
     let config_manager = ConfigManager::new();
     let config = match config_manager.load() {
