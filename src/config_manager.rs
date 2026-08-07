@@ -5,20 +5,20 @@ use std::{
 
 use noyalib::{from_str, to_string};
 
-use crate::logger;
+use crate::{logger, utils};
 
 #[derive(serde::Serialize, serde::Deserialize)]
-struct Config {
-    version: String,
-    retroarch_install_path: String,
-    launch_fullscreen: bool,
-    cores: Vec<Cores>,
+pub struct Config {
+    pub version: String,
+    pub retroarch_install_path: String,
+    pub launch_fullscreen: bool,
+    pub cores: Vec<Cores>,
 }
 
 #[derive(serde::Serialize, serde::Deserialize)]
-struct Cores {
-    extension: String,
-    core: String,
+pub struct Cores {
+    pub extension: String,
+    pub core: String,
 }
 
 pub struct ConfigManager {
@@ -58,27 +58,6 @@ impl ConfigManager {
         self.save(&Config::default());
     }
 
-    pub fn detect_retroarch(&self) -> Option<String> {
-        let username = env::var("USERNAME").ok()?;
-        let user_home = format!("C:\\Users\\{}", username);
-
-        let candidates = [
-            "C:\\Program Files\\RetroArch".to_string(),
-            "C:\\Program Files (x86)\\RetroArch".to_string(),
-            "C:\\RetroArch".to_string(),
-            "C:\\RetroArch-Win64".to_string(),
-            format!("{}\\AppData\\Local\\Programs\\RetroArch", user_home),
-            format!("{}\\AppData\\Roaming\\RetroArch", user_home),
-        ];
-
-        for candidate in candidates {
-            if Path::new(&candidate).exists() {
-                return Some(candidate);
-            }
-        }
-        return None;
-    }
-
     pub fn save(&self, config: &Config) {
         let config_str = to_string(config).expect("Failed to serialize config");
         fs::write(&self.config_path, config_str).expect("Failed to write config file");
@@ -95,7 +74,10 @@ impl Config {
     pub fn default() -> Self {
         Config {
             version: super::super::VERSION.to_string(),
-            retroarch_install_path: "C:\\RetroArch-Win64".to_string(), // TODO find_retroarch_install || path
+            retroarch_install_path: match utils::detect_retroarch() {
+                Some(path) => path,
+                None => "C:\\RetroArch-Win64".to_string(),
+            },
             launch_fullscreen: false,
             cores: vec![
                 Cores {
