@@ -2,10 +2,16 @@ use std::{collections::HashMap, path::Path};
 
 use stylic::Styleable;
 
-use crate::{commands::config_manager::ConfigManager, logger};
+use crate::{
+    commands::{config_manager::ConfigManager, rom_launcher::RomLauncher},
+    logger,
+};
 
 #[path = "config_manager.rs"]
 mod config_manager;
+
+#[path = "rom_launcher.rs"]
+mod rom_launcher;
 
 /// Displays version number and cli commands
 pub fn help_command() {
@@ -125,4 +131,9 @@ pub fn verify_config_command() {
     logger::log_info("Verification complete!".to_string());
 }
 
-pub fn launch_rom() {}
+pub fn launch_rom(rom_path: &String) {
+    let config_manager = ConfigManager::new();
+    let rom_launcher = RomLauncher::new(config_manager);
+    let rom_path = Path::new(rom_path);
+    rom_launcher.launch(rom_path);
+}

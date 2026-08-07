@@ -32,7 +32,7 @@ fn main() {
     }
 
     if utils::is_file(command) {
-        return commands::launch_rom();
+        return commands::launch_rom(command);
     }
 
     return logger::log_error(format!("Unknown Command: {}", command));

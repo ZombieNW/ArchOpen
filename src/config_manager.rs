@@ -15,7 +15,7 @@ pub struct Config {
     pub cores: Vec<Cores>,
 }
 
-#[derive(serde::Serialize, serde::Deserialize)]
+#[derive(serde::Serialize, serde::Deserialize, Clone)]
 pub struct Cores {
     pub extension: String,
     pub core: String,
