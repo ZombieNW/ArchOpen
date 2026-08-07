@@ -1,7 +1,9 @@
 use std::env;
 
 mod commands;
+mod config_manager;
 mod logger;
+mod rom_launcher;
 mod utils;
 
 const VERSION: &str = "0.9.0";

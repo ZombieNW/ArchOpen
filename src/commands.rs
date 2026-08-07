@@ -1,17 +1,9 @@
 use std::{collections::HashMap, path::Path};
-
 use stylic::Styleable;
 
-use crate::{
-    commands::{config_manager::ConfigManager, rom_launcher::RomLauncher},
-    logger,
-};
-
-#[path = "config_manager.rs"]
-mod config_manager;
-
-#[path = "rom_launcher.rs"]
-mod rom_launcher;
+use crate::config_manager::ConfigManager;
+use crate::logger;
+use crate::rom_launcher::RomLauncher;
 
 /// Displays version number and cli commands
 pub fn help_command() {
