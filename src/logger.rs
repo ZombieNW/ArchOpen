@@ -5,17 +5,17 @@ pub fn log_info(message: String) {
 }
 
 pub fn log_warning(message: String) {
-    println!("{} {message}", "INFO:".styled().yellow());
+    println!("{} {message}", "WARNING:".styled().yellow());
 }
 
 pub fn log_error(message: String) {
-    println!("{} {message}", "INFO:".styled().red());
+    println!("{} {message}", "ERROR:".styled().red());
 }
 
 pub fn log_debug(message: String) {
-    println!("{} {message}", "INFO:".styled().magenta());
+    println!("{} {message}", "DEBUG:".styled().magenta());
 }
 
 pub fn log_success(message: String) {
-    println!("{} {message}", "INFO:".styled().green());
+    println!("{} {message}", "SUCCESS:".styled().green());
 }
