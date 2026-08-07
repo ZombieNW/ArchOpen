@@ -31,3 +31,7 @@ First written in [Node](https://nodejs.org/en), then [C++](https://en.wikipedia.
 Rust is a language I've wanted to learn for some time, so I figured a good way to get my hands dirty with it would be to rewrite a codebase I was already disillusioned with.
 
 I am pretty happy with this rewrite so far, it's much more maintainable and I can see the project sticking with it for some time.
+
+### Breaking Changes
+
+This version currently does not have a config migrator. I do not plan to add migration for `< v0.9` versions to avoid bloat (would require a JSON parser). Config migration will be added if/when the new yaml system needs it.
