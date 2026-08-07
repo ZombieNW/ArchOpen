@@ -1,4 +1,4 @@
-use std::{collections::HashMap, iter::Map};
+use std::{collections::HashMap, iter::Map, path::Path};
 
 use stylic::Styleable;
 
@@ -71,6 +71,54 @@ pub fn list_cores_command() {
     }
 }
 
-pub fn verify_config_command() {}
+/// Verify the existence of all cores and executables referenced in the config
+pub fn verify_config_command() {
+    let config_manager = ConfigManager::new();
+    let config = match config_manager.load() {
+        Ok(config) => config,
+        Err(e) => {
+            return logger::log_error(format!("Config not found: {}.", e));
+        }
+    };
+
+    logger::log_info("Verifying config...".to_string());
+
+    // RetroArch Executable
+    let retroarch_executable = Path::new(&config.retroarch_install_path).join("retroarch.exe");
+    if retroarch_executable.exists() {
+        logger::log_success(format!(
+            "RetroArch executable found at: {}",
+            retroarch_executable.display()
+        ));
+    } else {
+        logger::log_error(format!(
+            "RetroArch executable not found, expected: {}",
+            retroarch_executable.display()
+        ));
+    }
+
+    // Cores
+    let mut core_list: Vec<String> = Vec::new();
+    for core in &config.cores {
+        if !core_list.contains(&core.core) {
+            core_list.push(core.core.clone());
+        }
+    }
+    for core in &core_list {
+        let core_path = Path::new(&config.retroarch_install_path)
+            .join("cores")
+            .join(core);
+        if core_path.exists() {
+            logger::log_success(format!("Core {core} found at: {}", core_path.display()));
+        } else {
+            logger::log_error(format!(
+                "Core {core} not found, expected: {}",
+                core_path.display()
+            ));
+        }
+    }
+
+    logger::log_info("Verification complete!".to_string());
+}
 
 pub fn launch_rom() {}
