@@ -52,7 +52,7 @@ pub fn list_cores_command() {
         }
     };
 
-    if config.cores.len() < 1 {
+    if config.cores.is_empty() {
         return logger::log_error("No cores configured.".to_string());
     }
 
