@@ -124,9 +124,8 @@ pub fn verify_config_command() {
 }
 
 /// Launches rom at given path
-pub fn launch_rom(rom_path: &String) {
+pub fn launch_rom(rom_path: &str) {
     let config_manager = ConfigManager::new();
     let rom_launcher = RomLauncher::new(config_manager);
-    let rom_path = Path::new(rom_path);
-    rom_launcher.launch(rom_path);
+    rom_launcher.launch(Path::new(rom_path));
 }
