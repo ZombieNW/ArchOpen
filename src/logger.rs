@@ -12,6 +12,7 @@ pub fn log_error(message: String) {
     println!("{} {message}", "ERROR:".styled().red());
 }
 
+#[allow(dead_code)]
 pub fn log_debug(message: String) {
     println!("{} {message}", "DEBUG:".styled().magenta());
 }

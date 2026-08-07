@@ -1,4 +1,4 @@
-use std::{env, fmt::format, fs, path::PathBuf};
+use std::{env, fs, path::PathBuf};
 
 use noyalib::{from_str, to_string};
 
