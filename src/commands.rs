@@ -1,5 +1,10 @@
 use stylic::Styleable;
 
+use crate::commands::config_manager::ConfigManager;
+
+#[path = "config_manager.rs"]
+mod config_manager;
+
 pub fn help_command() {
     println!(
         "{}",
@@ -29,7 +34,10 @@ pub fn version_command() {
     println!("ArchOpen v{} - by ZombieNW", super::VERSION);
 }
 
-pub fn generate_config_command() {}
+pub fn generate_config_command() {
+    let config_manager = ConfigManager::new();
+    config_manager.generate();
+}
 
 pub fn list_cores_command() {}
 
