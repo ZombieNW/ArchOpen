@@ -122,6 +122,10 @@ impl Default for Config {
                     core: "nestopia_libretro.dll".to_string(),
                 },
                 Cores {
+                    extension: "fds".to_string(),
+                    core: "nestopia_libretro.dll".to_string(),
+                },
+                Cores {
                     extension: "sfc".to_string(),
                     core: "snes9x_libretro.dll".to_string(),
                 },
