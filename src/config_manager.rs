@@ -27,10 +27,10 @@ pub struct ConfigManager {
 
 impl ConfigManager {
     pub fn new() -> Self {
-        let exe_path = env::current_exe().expect("Failed to get executable path");
-        let config_path = PathBuf::from(exe_path)
-            .parent()
-            .unwrap()
+        let config_path = env::current_exe()
+            .ok()
+            .and_then(|p| p.parent().map(|p| p.to_path_buf()))
+            .unwrap_or_else(|| PathBuf::from("."))
             .join("config.yaml");
 
         ConfigManager { config_path }
