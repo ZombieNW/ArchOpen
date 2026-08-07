@@ -1,48 +1,42 @@
-use std::{env, path::Path};
+use std::env;
 
 mod commands;
 mod logger;
-
-use commands::help_command;
+mod utils;
 
 const VERSION: &str = "0.9.0";
+
+const HELP_COMMANDS: &[&str] = &["help", "--help", "-h"];
+const VERSION_COMMANDS: &[&str] = &["--version", "-v"];
+const GENERATE_CONFIG_COMMANDS: &[&str] = &["--generate-config", "-gc"];
+const LIST_CORES_COMMANDS: &[&str] = &["--list-cores", "-lc", "-l"];
+const VERIFY_CONFIG_COMMANDS: &[&str] = &["--verify", "-vr"];
+const MIGRATE_CONFIG_COMMANDS: &[&str] = &["--migrate", "-m"];
 
 fn main() {
     let args: Vec<String> = env::args().collect();
     if args.len() < 2 {
-        return help_command();
+        return commands::help_command();
     }
     let command = &args[1];
 
-    let help_commands = ["help", "--help", "-h"];
-    let version_commands = ["--version", "-v"];
-    let generate_config_commands = ["--generate-config", "-gc"];
-    let list_cores_commands = ["--list-cores", "-lc", "-l"];
-    let verify_config_commands = ["--verify", "-vr"];
-    let migrate_config_commands = ["--migrate", "-m"];
-
-    if help_commands.contains(&command.as_str()) {
-        return help_command();
-    } else if version_commands.contains(&command.as_str()) {
-        println!("Version Command");
-    } else if generate_config_commands.contains(&command.as_str()) {
-        println!("Generate Config Command");
-    } else if list_cores_commands.contains(&command.as_str()) {
-        println!("List Cores Command");
-    } else if verify_config_commands.contains(&command.as_str()) {
-        println!("Verify Config Command");
-    } else if migrate_config_commands.contains(&command.as_str()) {
-        println!("Migrate Config Command");
+    if HELP_COMMANDS.contains(&command.as_str()) {
+        return commands::help_command();
+    } else if VERSION_COMMANDS.contains(&command.as_str()) {
+        return commands::version_command();
+    } else if GENERATE_CONFIG_COMMANDS.contains(&command.as_str()) {
+        return commands::generate_config_command();
+    } else if LIST_CORES_COMMANDS.contains(&command.as_str()) {
+        return commands::list_cores_command();
+    } else if VERIFY_CONFIG_COMMANDS.contains(&command.as_str()) {
+        return commands::verify_config_command();
+    } else if MIGRATE_CONFIG_COMMANDS.contains(&command.as_str()) {
+        return commands::migrate_config_command();
     }
 
-    if is_file(command) {
-        logger::log_error(format!("Unknown Command: {}", command));
+    if utils::is_file(command) {
+        return commands::launch_rom();
     }
 
-    return help_command();
-}
-
-fn is_file(path_name: &String) -> bool {
-    let path = Path::new(path_name);
-    return path.is_file();
+    return logger::log_error(format!("Unknown Command: {}", command));
 }

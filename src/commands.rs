@@ -22,5 +22,19 @@ Examples:
     archopen.exe -gc
     archopen.exe "C:\roms\game.smc"
 "#
-    )
+    );
 }
+
+pub fn version_command() {
+    println!("ArchOpen v{} - by ZombieNW", super::VERSION);
+}
+
+pub fn generate_config_command() {}
+
+pub fn list_cores_command() {}
+
+pub fn verify_config_command() {}
+
+pub fn migrate_config_command() {}
+
+pub fn launch_rom() {}
