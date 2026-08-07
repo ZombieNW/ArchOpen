@@ -1,10 +1,9 @@
-use std::env;
+use std::{env, path::Path};
 
 mod commands;
 mod config_manager;
 mod logger;
 mod rom_launcher;
-mod utils;
 
 const VERSION: &str = "0.9.0";
 
@@ -32,7 +31,7 @@ fn main() {
         commands::list_cores_command();
     } else if VERIFY_CONFIG_COMMANDS.contains(&command.as_str()) {
         commands::verify_config_command();
-    } else if utils::is_file(command) {
+    } else if Path::new(command).is_file() {
         commands::launch_rom(command);
     } else {
         logger::log_error(format!("Unknown Command: {}", command));

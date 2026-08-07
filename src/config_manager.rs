@@ -1,11 +1,12 @@
-use std::{env, fs, path::PathBuf};
+use std::{
+    env, fs,
+    path::{Path, PathBuf},
+};
 
+use chrono::Local;
 use noyalib::{from_str, to_string};
 
-use crate::{
-    logger,
-    utils::{self, get_timestamp},
-};
+use crate::logger;
 
 #[derive(serde::Serialize, serde::Deserialize)]
 pub struct Config {
@@ -91,9 +92,10 @@ impl ConfigManager {
 
     /// Backs up current config
     fn backup(&self, config: &Config) {
+        let timestamp = Local::now().format("%Y-%m-%d-%H-%M-%S").to_string();
         let backup_path = self
             .config_path
-            .with_added_extension(format!("{}.bak", get_timestamp()));
+            .with_added_extension(format!("{}.bak", timestamp));
 
         let config_str = to_string(config).expect("Failed to serialize config");
         fs::write(&backup_path, config_str).expect("Failed to write backup config");
@@ -109,7 +111,7 @@ impl Default for Config {
     fn default() -> Self {
         Config {
             version: super::VERSION.to_string(),
-            retroarch_install_path: match utils::detect_retroarch() {
+            retroarch_install_path: match detect_retroarch() {
                 Some(path) => path,
                 None => "C:\\RetroArch-Win64".to_string(),
             },
@@ -178,4 +180,25 @@ impl Default for Config {
             ],
         }
     }
+}
+
+pub fn detect_retroarch() -> Option<String> {
+    let username = env::var("USERNAME").ok()?;
+    let user_home = format!("C:\\Users\\{}", username);
+
+    let candidates = [
+        "C:\\Program Files\\RetroArch".to_string(),
+        "C:\\Program Files (x86)\\RetroArch".to_string(),
+        "C:\\RetroArch".to_string(),
+        "C:\\RetroArch-Win64".to_string(),
+        format!("{}\\AppData\\Local\\Programs\\RetroArch", user_home),
+        format!("{}\\AppData\\Roaming\\RetroArch", user_home),
+    ];
+
+    for candidate in candidates {
+        if Path::new(&candidate).exists() {
+            return Some(candidate);
+        }
+    }
+    return None;
 }
