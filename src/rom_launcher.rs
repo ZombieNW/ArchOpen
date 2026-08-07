@@ -18,7 +18,7 @@ impl RomLauncher {
         return config
             .cores
             .iter()
-            .find(|core| core.extension == extension)
+            .find(|core| core.extension.eq_ignore_ascii_case(extension))
             .cloned();
     }
 
@@ -45,10 +45,12 @@ impl RomLauncher {
             return logger::log_error(format!("ROM not found: {}", rom_path.display()));
         }
 
-        let extension = rom_path
-            .extension()
-            .and_then(|s| s.to_str())
-            .expect("No extension found on ROM path");
+        let Some(extension) = rom_path.extension().and_then(|s| s.to_str()) else {
+            return logger::log_error(format!(
+                "File has no valid extension: {}",
+                rom_path.display()
+            ));
+        };
 
         logger::log_info(format!("Loading ROM: {}", rom_path.display()));
 
