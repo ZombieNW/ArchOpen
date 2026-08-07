@@ -108,7 +108,7 @@ impl ConfigManager {
 impl Config {
     pub fn default() -> Self {
         Config {
-            version: super::super::VERSION.to_string(),
+            version: super::VERSION.to_string(),
             retroarch_install_path: match utils::detect_retroarch() {
                 Some(path) => path,
                 None => "C:\\RetroArch-Win64".to_string(),

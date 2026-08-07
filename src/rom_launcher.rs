@@ -1,7 +1,7 @@
 use std::{path::Path, process::Command};
 
 use crate::{
-    commands::config_manager::{Config, ConfigManager, Cores},
+    config_manager::{Config, ConfigManager, Cores},
     logger,
 };
 
