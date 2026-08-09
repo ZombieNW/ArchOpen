@@ -8,11 +8,11 @@ pub fn log_error(message: String) {
     println!("{} {message}", "ERROR:".styled().red());
 }
 
+pub fn log_success(message: String) {
+    println!("{} {message}", "SUCCESS:".styled().green());
+}
+
 #[allow(dead_code)]
 pub fn log_debug(message: String) {
     println!("{} {message}", "DEBUG:".styled().magenta());
-}
-
-pub fn log_success(message: String) {
-    println!("{} {message}", "SUCCESS:".styled().green());
 }
