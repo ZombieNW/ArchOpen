@@ -2,7 +2,7 @@ use std::{path::Path, process::Command};
 
 use crate::{
     config_manager::{Config, ConfigManager, Cores},
-    logger,
+    core_picker, logger,
 };
 
 pub struct RomLauncher {
@@ -79,10 +79,14 @@ impl RomLauncher {
                 logger::log_error(format!("No core found for extension: {}", extension));
                 None
             }
-            1 => cores.first(),
+            1 => cores.first().cloned(),
             _ => {
-                logger::log_error(format!("Multiple cores found for extension: {}", extension));
-                None
+                let fallback = format!(".{}", extension);
+                let file_name: &str = rom_path
+                    .file_name()
+                    .and_then(|s| s.to_str())
+                    .unwrap_or(fallback.as_str());
+                core_picker::core_picker(&cores, file_name)
             }
         }) else {
             return;

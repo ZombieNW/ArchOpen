@@ -14,6 +14,7 @@ winresource = "0.1"
 
 [dependencies]
 chrono = "0.4.45"
+dialoguer = "0.12.0"
 noyalib = "0.0.18"
 serde = "1.0.229"
 stylic = "0.3.1"

@@ -2,6 +2,7 @@ use std::{env, path::Path};
 
 mod commands;
 mod config_manager;
+mod core_picker;
 mod logger;
 mod rom_launcher;
 
