@@ -14,12 +14,13 @@ impl RomLauncher {
         RomLauncher { config_manager }
     }
 
-    fn find_core_for_extension(&self, config: &Config, extension: &str) -> Option<Cores> {
+    fn find_cores_for_extension(&self, config: &Config, extension: &str) -> Vec<Cores> {
         return config
             .cores
             .iter()
-            .find(|core| core.extension.eq_ignore_ascii_case(extension))
-            .cloned();
+            .filter(|core| core.extension.eq_ignore_ascii_case(extension))
+            .cloned()
+            .collect();
     }
 
     fn build_launch_command(
@@ -71,8 +72,20 @@ impl RomLauncher {
             ));
         }
 
-        let Some(core) = self.find_core_for_extension(&config, &extension) else {
-            return logger::log_error(format!("No core found for extension: {}", extension));
+        let cores = self.find_cores_for_extension(&config, extension);
+
+        let Some(core) = (match cores.len() {
+            0 => {
+                logger::log_error(format!("No core found for extension: {}", extension));
+                None
+            }
+            1 => cores.first(),
+            _ => {
+                logger::log_error(format!("Multiple cores found for extension: {}", extension));
+                None
+            }
+        }) else {
+            return;
         };
 
         let core_path = retroarch_root.join("cores").join(&core.core);
