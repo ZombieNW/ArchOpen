@@ -117,69 +117,81 @@ impl Default for Config {
             },
             launch_fullscreen: false,
             cores: vec![
+                // NES
                 Cores {
-                    extension: "nes".to_string(),
-                    core: "nestopia_libretro.dll".to_string(),
+                    extension: "nes".into(),
+                    core: "nestopia_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "fds".to_string(),
-                    core: "nestopia_libretro.dll".to_string(),
+                    extension: "fds".into(),
+                    core: "nestopia_libretro.dll".into(),
+                },
+                // SNES
+                Cores {
+                    extension: "sfc".into(),
+                    core: "snes9x_libretro.dll".into(),
+                },
+                // Sega
+                Cores {
+                    extension: "smd".into(),
+                    core: "genesis_plus_gx_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "sfc".to_string(),
-                    core: "snes9x_libretro.dll".to_string(),
+                    extension: "gen".into(),
+                    core: "genesis_plus_gx_libretro.dll".into(),
+                },
+                // N64
+                Cores {
+                    extension: "z64".into(),
+                    core: "mupen64plus_next_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "smd".to_string(),
-                    core: "genesis_plus_gx_libretro.dll".to_string(),
+                    extension: "n64".into(),
+                    core: "mupen64plus_next_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "gen".to_string(),
-                    core: "genesis_plus_gx_libretro.dll".to_string(),
+                    extension: "v64".into(),
+                    core: "mupen64plus_next_libretro.dll".into(),
+                },
+                // PSX
+                Cores {
+                    extension: "chd".into(),
+                    core: "swanstation_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "z64".to_string(),
-                    core: "mupen64plus_next_libretro.dll".to_string(),
+                    extension: "cue".into(),
+                    core: "swanstation_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "n64".to_string(),
-                    core: "mupen64plus_next_libretro.dll".to_string(),
+                    extension: "iso".into(),
+                    core: "swanstation_libretro.dll".into(),
+                },
+                // GC/Wii
+                Cores {
+                    extension: "gcm".into(),
+                    core: "dolphin_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "v64".to_string(),
-                    core: "mupen64plus_next_libretro.dll".to_string(),
+                    extension: "wbfs".into(),
+                    core: "dolphin_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "chd".to_string(),
-                    core: "swanstation_libretro.dll".to_string(),
+                    extension: "iso".into(),
+                    core: "dolphin_libretro.dll".into(),
+                },
+                // GBA
+                Cores {
+                    extension: "gba".into(),
+                    core: "mgba_libretro.dll".into(),
+                },
+                // GB
+                Cores {
+                    extension: "gb".into(),
+                    core: "gambatte_libretro.dll".into(),
                 },
                 Cores {
-                    extension: "cue".to_string(),
-                    core: "swanstation_libretro.dll".to_string(),
-                },
-                Cores {
-                    extension: "iso".to_string(),
-                    core: "swanstation_libretro.dll".to_string(),
-                },
-                Cores {
-                    extension: "gcm".to_string(),
-                    core: "dolphin_libretro.dll".to_string(),
-                },
-                Cores {
-                    extension: "wbfs".to_string(),
-                    core: "dolphin_libretro.dll".to_string(),
-                },
-                Cores {
-                    extension: "gba".to_string(),
-                    core: "mgba_libretro.dll".to_string(),
-                },
-                Cores {
-                    extension: "gb".to_string(),
-                    core: "gambatte_libretro.dll".to_string(),
-                },
-                Cores {
-                    extension: "gbc".to_string(),
-                    core: "gambatte_libretro.dll".to_string(),
+                    extension: "gbc".into(),
+                    core: "gambatte_libretro.dll".into(),
                 },
             ],
         }
