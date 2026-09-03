@@ -4,7 +4,7 @@ use std::{
 };
 
 use chrono::Local;
-use toml::{from_str, to_string};
+use toml::{from_str, to_string_pretty};
 
 use crate::logger;
 
@@ -82,7 +82,7 @@ impl ConfigManager {
 
     /// Saves config to file
     fn save(&self, config: &Config) {
-        let config_str = to_string(config).expect("Failed to serialize config");
+        let config_str = to_string_pretty(config).expect("Failed to serialize config");
         fs::write(&self.config_path, config_str).expect("Failed to write config file");
         logger::log_success(format!(
             "config.toml written to: {}",
@@ -97,7 +97,7 @@ impl ConfigManager {
             .config_path
             .with_added_extension(format!("{}.bak", timestamp));
 
-        let config_str = to_string(config).expect("Failed to serialize config");
+        let config_str = to_string_pretty(config).expect("Failed to serialize config");
         fs::write(&backup_path, config_str).expect("Failed to write backup config");
 
         logger::log_info(format!(
