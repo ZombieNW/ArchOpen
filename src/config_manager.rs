@@ -4,7 +4,7 @@ use std::{
 };
 
 use chrono::Local;
-use noyalib::{from_str, to_string};
+use toml::{from_str, to_string};
 
 use crate::logger;
 
@@ -32,7 +32,7 @@ impl ConfigManager {
             .ok()
             .and_then(|p| p.parent().map(|p| p.to_path_buf()))
             .unwrap_or_else(|| PathBuf::from("."))
-            .join("config.yaml");
+            .join("config.toml");
 
         ConfigManager { config_path }
     }
@@ -45,13 +45,13 @@ impl ConfigManager {
     /// Loads config file
     pub fn load(&self) -> Result<Config, Box<dyn std::error::Error>> {
         if !self.exists() {
-            return Err("config.yaml doesn't exist".into());
+            return Err("config.toml doesn't exist".into());
         }
 
         let config_content = fs::read_to_string(&self.config_path)?;
         let config: Config = from_str(&config_content)?;
 
-        // TODO Migration
+        // Migration goes here
 
         return Ok(config);
     }
@@ -61,7 +61,7 @@ impl ConfigManager {
         // Backup if it exists
         if self.exists() && !force {
             logger::log_error(
-                "config.yaml already exists! (Use --force to overwrite it.)".to_string(),
+                "config.toml already exists! (Use --force to overwrite it.)".to_string(),
             );
             return;
         }
@@ -76,7 +76,7 @@ impl ConfigManager {
             self.backup(&config);
         }
 
-        // Save default to config.yaml
+        // Save default to config.toml
         self.save(&Config::default());
     }
 
@@ -85,7 +85,7 @@ impl ConfigManager {
         let config_str = to_string(config).expect("Failed to serialize config");
         fs::write(&self.config_path, config_str).expect("Failed to write config file");
         logger::log_success(format!(
-            "config.yaml written to: {}",
+            "config.toml written to: {}",
             self.config_path.display()
         ));
     }
@@ -101,7 +101,7 @@ impl ConfigManager {
         fs::write(&backup_path, config_str).expect("Failed to write backup config");
 
         logger::log_info(format!(
-            "config.yaml backed up to: {}",
+            "config.toml backed up to: {}",
             backup_path.display()
         ));
     }

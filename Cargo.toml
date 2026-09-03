@@ -1,6 +1,6 @@
 [package]
 name = "archopen"
-version = "0.9.0"
+version = "0.9.1"
 description = "An easy way to open games with RetroArch"
 edition = "2024"
 build = "build.rs"
@@ -15,7 +15,7 @@ winresource = "0.1"
 [dependencies]
 chrono = "0.4.45"
 dialoguer = "0.12.0"
-noyalib = "0.0.18"
-serde = "1.0.229"
+serde = { version = "1.0.229", features = ["derive"] }
 stylic = "0.3.1"
+toml = "1.1.5"
 winresource = "0.1.31"
