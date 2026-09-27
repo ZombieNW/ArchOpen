@@ -6,7 +6,7 @@ mod core_picker;
 mod logger;
 mod rom_launcher;
 
-const VERSION: &str = "0.9.1";
+const VERSION: &str = "0.9.2";
 
 const HELP_COMMANDS: &[&str] = &["help", "--help", "-h"];
 const VERSION_COMMANDS: &[&str] = &["--version", "-v"];
